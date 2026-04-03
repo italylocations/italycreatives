@@ -154,6 +154,16 @@ export default function Footer() {
         >
           &copy; 2026 ItalyCreatives. Rome, Italy.
         </p>
+        <p
+          style={{
+            ...sans,
+            color: '#9A9590',
+            fontSize: '0.68rem',
+            marginTop: '4px',
+          }}
+        >
+          P.IVA 14296561005 &mdash; Rome, Italy
+        </p>
 
       </div>
     </footer>

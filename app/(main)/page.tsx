@@ -321,31 +321,28 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 4b. FOUNDED BY FILMMAKERS ────────────────────────────────────── */}
+      {/* ── 4b. SELECTED PRODUCTIONS ────────────────────────────────────── */}
       <section
         style={{ borderBottom: '1px solid var(--card-border)' }}
         className="px-6 py-28"
       >
         <div className="max-w-5xl mx-auto">
-          <SectionLabel>Founded by Filmmakers</SectionLabel>
+          <SectionLabel>Selected Productions</SectionLabel>
 
           <h2
             style={{ ...heading, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 300 }}
             className="italic leading-tight mb-8 max-w-2xl"
           >
-            We know what productions need.
-            <br />
-            Because we&rsquo;ve been on set.
+            Productions we have worked with.
           </h2>
 
           <p
             style={{ ...body, lineHeight: 1.85, fontSize: '0.95rem', maxWidth: '42rem' }}
             className="mb-16"
           >
-            ItalyCreatives was founded by Nicolas Vanegas Sanchez, director of photography
-            and filmmaker with credits including Sony Pictures, Porsche, Ballandi Music,
-            Fila and the Italian Air Force. We represent crew because we understand what
-            productions actually need on set.
+            ItalyCreatives is part of a complete production ecosystem built around
+            international work in Italy. Our network has delivered for major studios,
+            fashion houses, automotive brands and broadcasters — always from Rome.
           </p>
 
           {/* Video grid — 2 columns, 3 rows */}
@@ -354,38 +351,32 @@ export default function HomePage() {
               {
                 embedUrl: 'https://www.youtube.com/embed/V2fJv2omoZU',
                 label: 'Sony Pictures',
-                title: 'Equalizer 3 — Behind the Scenes I',
-                credit: 'Cinematography — Nicolas Vanegas Sanchez',
+                caption: 'Roma, 2023',
               },
               {
                 embedUrl: 'https://www.youtube.com/embed/-A73xjTUrOo',
                 label: 'Sony Pictures',
-                title: 'Equalizer 3 — Behind the Scenes II',
-                credit: 'Cinematography — Nicolas Vanegas Sanchez',
+                caption: 'Roma, 2023',
               },
               {
                 embedUrl: 'https://player.vimeo.com/video/755217732',
-                label: 'Porsche — Faroe Islands',
-                title: 'Porsche Backstage — Faroe Islands',
-                credit: 'Cinematography — Nicolas Vanegas Sanchez',
+                label: 'Porsche',
+                caption: 'Faroe Islands, 2022',
               },
               {
                 embedUrl: 'https://player.vimeo.com/video/379296367',
-                label: 'Fila — Fashion Campaign',
-                title: 'Fila Campaign 2020',
-                credit: 'Cinematography & Editing — Nicolas Vanegas Sanchez',
+                label: 'Fila',
+                caption: 'Roma, 2020',
               },
               {
                 embedUrl: 'https://www.youtube.com/embed/ljw3QTRIwIo',
                 label: 'Aeronautica Militare',
-                title: 'Legacy of the Sky — Centennial Tribute',
-                credit: 'Cinematography — Nicolas Vanegas Sanchez',
+                caption: 'Roma, 2023',
               },
               {
                 embedUrl: 'https://www.youtube.com/embed/NCVpKDqU8wk',
                 label: 'Ballandi Music',
-                title: 'Aurora Blasi — French Roulette',
-                credit: 'Director / DOP / Editor — Nicolas Vanegas Sanchez',
+                caption: 'Roma, 2019',
               },
             ].map((video) => (
               <div key={video.embedUrl}>
@@ -404,7 +395,7 @@ export default function HomePage() {
                   >
                     <iframe
                       src={video.embedUrl}
-                      title={video.title}
+                      title={`${video.label} — ${video.caption}`}
                       loading="lazy"
                       allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -429,23 +420,12 @@ export default function HomePage() {
                   </p>
                   <p
                     style={{
-                      fontFamily: 'var(--font-cormorant, Cormorant Garamond, Georgia, serif)',
-                      fontSize: '1.05rem',
-                      fontStyle: 'italic',
-                      color: 'var(--text-primary)',
-                      marginBottom: '3px',
-                    }}
-                  >
-                    {video.title}
-                  </p>
-                  <p
-                    style={{
                       fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
                       fontSize: '0.72rem',
                       color: 'var(--text-muted)',
                     }}
                   >
-                    {video.credit}
+                    {video.caption}
                   </p>
                 </div>
               </div>

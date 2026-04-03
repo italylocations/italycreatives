@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ExternalLink } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'About — ItalyCreatives',
@@ -153,35 +154,41 @@ export default function AboutPage() {
           </div>
           <div className="md:col-span-8 space-y-5">
             <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
-              ItalyCreatives is the third pillar of a complete offering for international
-              productions shooting in Italy. Together with{' '}
+              ItalyCreatives operates within a wider production ecosystem built for
+              international work in Italy. Two sister companies complete the offering:
+            </p>
+            <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
               <a
                 href="https://nreal.it"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--accent-gold)', textDecoration: 'none' }}
+                style={{ color: 'var(--accent-gold)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
                 className="hover:opacity-80 transition-opacity"
               >
-                NREAL
+                NREAL <ExternalLink size={11} strokeWidth={1.5} />
               </a>{' '}
-              (production and direction services) and{' '}
+              handles production and direction services for film, advertising, and branded
+              content. From pre-production through delivery, NREAL coordinates the full
+              production process for international clients shooting in Italy.
+            </p>
+            <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
               <a
                 href="https://italylocations.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: 'var(--accent-gold)', textDecoration: 'none' }}
+                style={{ color: 'var(--accent-gold)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
                 className="hover:opacity-80 transition-opacity"
               >
-                ItalyLocations
+                ItalyLocations <ExternalLink size={11} strokeWidth={1.5} />
               </a>{' '}
-              (location scouting across Italy), we cover every major production need from a
-              single network.
+              covers location scouting across the entire country — from Rome&rsquo;s
+              historic centre to the Amalfi Coast, Sicilian countryside, and the
+              Dolomites. Every location is researched, permitted, and production-ready.
             </p>
             <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
-              A production company arriving in Italy can contact one person and receive:
-              location scouting across the entire country, creative crew coordination
-              in Rome, and production direction if required. One network. One standard.
-              One point of contact.
+              Together, the three companies offer a production arriving in Italy a single
+              point of contact for locations, crew, and full production coordination.
+              One network. One standard.
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-px mt-8"

@@ -101,7 +101,7 @@ export default function ApplyLandingPage() {
             lineHeight: 1.7,
           }}
         >
-          Applications are reviewed personally by Nicolas Vanegas Sanchez.
+          Every application is reviewed personally.
           <br />
           We respond to every qualified application within 5 business days.
         </p>
