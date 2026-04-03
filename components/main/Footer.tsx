@@ -23,8 +23,10 @@ const fLink: React.CSSProperties = {
   color: 'rgba(255,255,255,0.6)',
   textDecoration: 'none',
   fontSize: '0.85rem',
-  display: 'block',
-  marginBottom: '0.65rem',
+  display: 'flex',
+  alignItems: 'center',
+  minHeight: '44px',
+  marginBottom: '0',
 }
 
 export default function Footer() {

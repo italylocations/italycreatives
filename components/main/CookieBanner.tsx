@@ -42,69 +42,67 @@ export default function CookieBanner() {
         background: '#1A1A1A',
         borderTop: '1px solid rgba(255,255,255,0.08)',
         padding: '1.25rem 1.5rem',
-        display: 'flex',
-        flexWrap: 'wrap',
-        alignItems: 'center',
-        gap: '1rem',
         animation: 'slideUp 0.3s ease',
       }}
     >
       <style>{`@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }`}</style>
 
-      <p
-        style={{
-          flex: 1,
-          minWidth: '200px',
-          fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
-          fontSize: '0.8rem',
-          color: 'rgba(248,245,240,0.6)',
-          lineHeight: 1.6,
-          margin: 0,
-        }}
-      >
-        We use cookies to improve your experience. By continuing, you agree to our{' '}
-        <Link
-          href="/privacy-policy"
-          style={{ color: 'var(--accent-gold, #C4A882)', textDecoration: 'none' }}
+      <div style={{ maxWidth: '560px', margin: '0 auto' }}>
+        <p
+          style={{
+            fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+            fontSize: '0.8rem',
+            color: 'rgba(248,245,240,0.6)',
+            lineHeight: 1.6,
+            margin: '0 0 1rem 0',
+          }}
         >
-          Privacy Policy
-        </Link>
-        .
-      </p>
+          We use cookies to improve your experience. By continuing, you agree to our{' '}
+          <Link
+            href="/privacy-policy"
+            style={{ color: 'var(--accent-gold, #C4A882)', textDecoration: 'none' }}
+          >
+            Privacy Policy
+          </Link>
+          .
+        </p>
 
-      <div style={{ display: 'flex', gap: '0.75rem', flexShrink: 0 }}>
-        <button
-          onClick={() => respond(false)}
-          style={{
-            fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
-            fontSize: '0.68rem',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            background: 'transparent',
-            border: '1px solid rgba(255,255,255,0.15)',
-            color: 'rgba(248,245,240,0.45)',
-            padding: '0.5rem 1rem',
-            cursor: 'pointer',
-          }}
-        >
-          Decline
-        </button>
-        <button
-          onClick={() => respond(true)}
-          style={{
-            fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
-            fontSize: '0.68rem',
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            background: '#8B0000',
-            border: 'none',
-            color: '#fff',
-            padding: '0.5rem 1.25rem',
-            cursor: 'pointer',
-          }}
-        >
-          Accept
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem' }}>
+          <button
+            onClick={() => respond(false)}
+            style={{
+              fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+              fontSize: '0.68rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              background: 'transparent',
+              border: '1px solid rgba(255,255,255,0.15)',
+              color: 'rgba(248,245,240,0.45)',
+              padding: '0.6rem 0',
+              cursor: 'pointer',
+              flex: 1,
+            }}
+          >
+            Decline
+          </button>
+          <button
+            onClick={() => respond(true)}
+            style={{
+              fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+              fontSize: '0.68rem',
+              letterSpacing: '0.15em',
+              textTransform: 'uppercase',
+              background: '#8B0000',
+              border: 'none',
+              color: '#fff',
+              padding: '0.6rem 0',
+              cursor: 'pointer',
+              flex: 2,
+            }}
+          >
+            Accept
+          </button>
+        </div>
       </div>
     </div>
   )

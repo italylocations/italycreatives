@@ -442,7 +442,7 @@ export default function ContactPage() {
                 cursor: status === 'sending' ? 'default' : 'pointer',
                 transition: 'opacity 0.15s',
               }}
-              className="hover:opacity-80"
+              className="w-full sm:w-auto hover:opacity-80"
             >
               {status === 'sending' ? 'Sending…' : 'Send Inquiry'}
             </button>

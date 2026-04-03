@@ -62,7 +62,7 @@ export default function HomePage() {
 
         <h1
           style={{ ...heading, lineHeight: 1.05 }}
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-light italic mb-8 max-w-5xl"
+          className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-light italic mb-8 max-w-5xl"
         >
           Creative Crew
           <br />
@@ -73,14 +73,14 @@ export default function HomePage() {
 
         <p
           style={{ ...body, maxWidth: '36rem', lineHeight: 1.75 }}
-          className="text-lg mb-12"
+          className="text-base sm:text-lg mb-12"
         >
           We represent carefully selected makeup artists, hair stylists,
           fashion stylists and filmmakers based in Rome, Italy.
           Available for editorial, advertising and fashion productions worldwide.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 items-center">
+        <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center w-full sm:w-auto max-w-xs sm:max-w-none">
           <Link
             href="/contact"
             style={{
@@ -88,7 +88,7 @@ export default function HomePage() {
               background: 'var(--accent-red)',
               color: '#fff',
             }}
-            className="px-10 py-4 transition-opacity hover:opacity-80"
+            className="px-10 py-4 text-center transition-opacity hover:opacity-80"
           >
             Book Our Crew
           </Link>
@@ -99,7 +99,7 @@ export default function HomePage() {
               border: '1px solid var(--accent-red)',
               color: 'var(--accent-red)',
             }}
-            className="px-10 py-4 transition-opacity hover:opacity-60"
+            className="px-10 py-4 text-center transition-opacity hover:opacity-60"
           >
             Join the Roster
           </a>
@@ -168,7 +168,7 @@ export default function HomePage() {
           <SectionLabel>Our Crew</SectionLabel>
 
           <h2
-            style={{ ...heading, fontSize: '2.8rem', fontWeight: 300 }}
+            style={{ ...heading, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 300 }}
             className="italic mb-16 leading-tight"
           >
             Professionals we represent.
@@ -520,7 +520,7 @@ export default function HomePage() {
             Get in Touch
           </p>
           <h2
-            style={{ ...heading, fontSize: '2.8rem', fontWeight: 300 }}
+            style={{ ...heading, fontSize: 'clamp(1.8rem, 4vw, 2.8rem)', fontWeight: 300 }}
             className="italic leading-tight mb-8"
           >
             Looking for crew for your
@@ -541,7 +541,7 @@ export default function HomePage() {
               background: 'var(--accent-red)',
               color: '#fff',
             }}
-            className="inline-block px-12 py-4 transition-opacity hover:opacity-80"
+            className="inline-block w-full sm:w-auto px-12 py-4 text-center transition-opacity hover:opacity-80"
           >
             Get in Touch
           </Link>

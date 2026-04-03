@@ -18,8 +18,8 @@ export default function WhatsAppButton() {
       title="Chat on WhatsApp"
       style={{
         position: 'fixed',
-        bottom: '1.75rem',
-        right: '1.75rem',
+        bottom: '1rem',
+        right: '1rem',
         zIndex: 100,
         display: 'flex',
         alignItems: 'center',
