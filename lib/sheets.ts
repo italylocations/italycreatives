@@ -68,121 +68,137 @@ const SHEET_HEADERS: Record<string, string[]> = {
   ],
 }
 
-// ─── initializeSheet ─────────────────────────────────────────────────────────
+// ─── setupSheet ──────────────────────────────────────────────────────────────
 
-export interface InitResult {
-  spreadsheetId: string
-  url: string
-  serviceAccountEmail: string
-}
+const TAB_TITLES = ['Applications', 'Roster', 'Extended Network', 'Bookings']
 
 /**
- * Create a fresh "ItalyCreatives Database" spreadsheet with all tabs,
- * headers, and dark header formatting.
- * Pass shareWithEmail to grant editor access to a personal Google account.
+ * Set up an existing spreadsheet as the ItalyCreatives Database.
+ * - Renames the first tab to "Applications" if it has a different name
+ * - Adds any missing tabs
+ * - Writes headers to every tab
+ * - Formats row 1: bg #0D0D0D, white bold text, frozen
  */
-export async function initializeSheet(shareWithEmail?: string): Promise<InitResult> {
-  const credentials = parseCredentials()
-  const serviceAccountEmail = (credentials.client_email as string | undefined) ?? ''
-
-  const auth = new google.auth.GoogleAuth({
-    credentials,
-    scopes: [
-      'https://www.googleapis.com/auth/spreadsheets',
-      'https://www.googleapis.com/auth/drive',
-    ],
-  })
-
+export async function setupSheet(spreadsheetId: string, shareWithEmail?: string): Promise<void> {
+  const auth = getAuthClient(
+    shareWithEmail ? ['https://www.googleapis.com/auth/drive'] : []
+  )
   const sheets = google.sheets({ version: 'v4', auth })
-  const drive = google.drive({ version: 'v3', auth })
 
-  // 1. Create spreadsheet with all tabs in one request
-  const tabTitles = ['Applications', 'Roster', 'Extended Network', 'Bookings']
-  const createRes = await sheets.spreadsheets.create({
-    requestBody: {
-      properties: { title: 'ItalyCreatives Database' },
-      sheets: tabTitles.map((title) => ({ properties: { title } })),
-    },
-  })
+  // 1. Read existing sheet metadata
+  const meta = await sheets.spreadsheets.get({ spreadsheetId })
+  const existingSheets = meta.data.sheets ?? []
 
-  const spreadsheetId = createRes.data.spreadsheetId!
-  const createdSheets = createRes.data.sheets ?? []
-
-  // Build sheetId map by title
+  // Build title→sheetId map for existing tabs
   const sheetIdByTitle: Record<string, number> = {}
-  for (const s of createdSheets) {
+  for (const s of existingSheets) {
     const title = s.properties?.title ?? ''
     const id = s.properties?.sheetId ?? 0
     sheetIdByTitle[title] = id
   }
 
-  // 2. Write headers to every tab
+  const batchRequests: object[] = []
+
+  // 2. Rename first tab to "Applications" if needed
+  if (!sheetIdByTitle['Applications'] && existingSheets.length > 0) {
+    const firstSheet = existingSheets[0]
+    const firstTitle = firstSheet.properties?.title ?? ''
+    const firstId = firstSheet.properties?.sheetId ?? 0
+    console.log(`[sheets] Renaming "${firstTitle}" → "Applications"`)
+    batchRequests.push({
+      updateSheetProperties: {
+        properties: { sheetId: firstId, title: 'Applications' },
+        fields: 'title',
+      },
+    })
+    // Update local map
+    delete sheetIdByTitle[firstTitle]
+    sheetIdByTitle['Applications'] = firstId
+  }
+
+  // 3. Add missing tabs
+  for (const title of TAB_TITLES) {
+    if (!(title in sheetIdByTitle)) {
+      console.log(`[sheets] Adding tab "${title}"`)
+      batchRequests.push({ addSheet: { properties: { title } } })
+    }
+  }
+
+  // Apply rename + addSheet requests
+  if (batchRequests.length > 0) {
+    const res = await sheets.spreadsheets.batchUpdate({
+      spreadsheetId,
+      requestBody: { requests: batchRequests },
+    })
+    // Capture sheetIds for newly added tabs
+    for (const reply of res.data.replies ?? []) {
+      const props = reply.addSheet?.properties
+      if (props?.title && props.sheetId != null) {
+        sheetIdByTitle[props.title] = props.sheetId
+      }
+    }
+  }
+
+  // 4. Write headers
+  console.log('[sheets] Writing headers…')
   await sheets.spreadsheets.values.batchUpdate({
     spreadsheetId,
     requestBody: {
       valueInputOption: 'RAW',
-      data: tabTitles.map((title) => ({
+      data: TAB_TITLES.map((title) => ({
         range: `${title}!A1`,
         values: [SHEET_HEADERS[title]],
       })),
     },
   })
 
-  // 3. Format header row: bg #0D0D0D, white bold text
+  // 5. Format + freeze header row
   const darkBg = { red: 13 / 255, green: 13 / 255, blue: 13 / 255 }
   const white  = { red: 1, green: 1, blue: 1 }
 
+  console.log('[sheets] Formatting headers…')
   await sheets.spreadsheets.batchUpdate({
     spreadsheetId,
     requestBody: {
-      requests: tabTitles.map((title) => ({
-        repeatCell: {
-          range: {
-            sheetId: sheetIdByTitle[title],
-            startRowIndex: 0,
-            endRowIndex: 1,
-          },
-          cell: {
-            userEnteredFormat: {
-              backgroundColor: darkBg,
-              textFormat: { foregroundColor: white, bold: true },
+      requests: TAB_TITLES.flatMap((title) => [
+        {
+          repeatCell: {
+            range: {
+              sheetId: sheetIdByTitle[title],
+              startRowIndex: 0,
+              endRowIndex: 1,
             },
+            cell: {
+              userEnteredFormat: {
+                backgroundColor: darkBg,
+                textFormat: { foregroundColor: white, bold: true },
+              },
+            },
+            fields: 'userEnteredFormat(backgroundColor,textFormat)',
           },
-          fields: 'userEnteredFormat(backgroundColor,textFormat)',
         },
-      })),
+        {
+          updateSheetProperties: {
+            properties: {
+              sheetId: sheetIdByTitle[title],
+              gridProperties: { frozenRowCount: 1 },
+            },
+            fields: 'gridProperties.frozenRowCount',
+          },
+        },
+      ]),
     },
   })
 
-  // 4. Freeze header row on every tab
-  await sheets.spreadsheets.batchUpdate({
-    spreadsheetId,
-    requestBody: {
-      requests: tabTitles.map((title) => ({
-        updateSheetProperties: {
-          properties: {
-            sheetId: sheetIdByTitle[title],
-            gridProperties: { frozenRowCount: 1 },
-          },
-          fields: 'gridProperties.frozenRowCount',
-        },
-      })),
-    },
-  })
-
-  // 5. Share with personal email if provided
+  // 6. Share with personal email if provided (requires Drive scope)
   if (shareWithEmail) {
+    console.log(`[sheets] Sharing with ${shareWithEmail}…`)
+    const drive = google.drive({ version: 'v3', auth })
     await drive.permissions.create({
       fileId: spreadsheetId,
       requestBody: { type: 'user', role: 'writer', emailAddress: shareWithEmail },
       sendNotificationEmail: false,
     })
-  }
-
-  return {
-    spreadsheetId,
-    url: `https://docs.google.com/spreadsheets/d/${spreadsheetId}`,
-    serviceAccountEmail,
   }
 }
 
