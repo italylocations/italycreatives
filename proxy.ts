@@ -7,6 +7,10 @@ export function proxy(request: NextRequest) {
 
   if (isApply) {
     const pathname = request.nextUrl.pathname
+    // Never rewrite API routes — they must resolve directly
+    if (pathname.startsWith('/api/')) {
+      return NextResponse.next()
+    }
     // apply.italycreatives.com/          → /apply
     // apply.italycreatives.com/apply     → /apply/apply
     // apply.italycreatives.com/thank-you → /apply/thank-you

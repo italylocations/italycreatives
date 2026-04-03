@@ -39,6 +39,28 @@ interface ApplyPayload {
   referralName: string
   accuracyConfirmed: boolean
   honeypot: string
+  turnstileToken?: string
+}
+
+async function verifyTurnstile(token: string): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY
+  if (!secret) return true // not configured — skip verification (dev / staging)
+  if (!token) return false
+
+  try {
+    const res = await fetch(
+      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ secret, response: token }).toString(),
+      }
+    )
+    const json = await res.json() as { success: boolean }
+    return json.success === true
+  } catch {
+    return false
+  }
 }
 
 const required: (keyof ApplyPayload)[] = [
@@ -76,6 +98,15 @@ export async function POST(request: Request) {
   // Honeypot — silent 200 to bots
   if (p.honeypot) {
     return NextResponse.json({ success: true })
+  }
+
+  // Turnstile verification (skipped when secret key is not configured)
+  const turnstileOk = await verifyTurnstile(p.turnstileToken ?? '')
+  if (!turnstileOk) {
+    return NextResponse.json(
+      { error: 'Spam check failed. Please refresh and try again.' },
+      { status: 400 }
+    )
   }
 
   // Required field validation

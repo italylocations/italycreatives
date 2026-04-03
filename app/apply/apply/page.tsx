@@ -4,6 +4,9 @@ import { useState } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronRight, ChevronLeft } from 'lucide-react'
+import { Turnstile } from '@marsidev/react-turnstile'
+
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
 
 // ─── style tokens ────────────────────────────────────────────────────────────
 
@@ -80,6 +83,7 @@ interface ApplyFormData {
   referralName: string
   accuracyConfirmed: boolean
   honeypot: string
+  turnstileToken: string
 }
 
 const emptyCredit: Credit = { magazine: '', issue: '', link: '' }
@@ -111,6 +115,7 @@ const initial: ApplyFormData = {
   referralName: '',
   accuracyConfirmed: false,
   honeypot: '',
+  turnstileToken: '',
 }
 
 const TOTAL_STEPS = 5
@@ -212,6 +217,13 @@ export default function ApplyFormPage() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (submitting) return
+
+    // Require Turnstile token when the widget is configured
+    if (TURNSTILE_SITE_KEY && !data.turnstileToken) {
+      setError('Please complete the spam check before submitting.')
+      return
+    }
+
     setSubmitting(true)
     setError('')
 
@@ -225,7 +237,7 @@ export default function ApplyFormPage() {
         const json = await res.json().catch(() => ({}))
         throw new Error((json as { error?: string }).error ?? 'Submission failed')
       }
-      // Navigate to thank-you — middleware rewrites /thank-you → /apply/thank-you on subdomain
+      // Navigate to thank-you — proxy rewrites /thank-you → /apply/thank-you on subdomain
       router.push('/thank-you')
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
@@ -490,18 +502,31 @@ export default function ApplyFormPage() {
                 />
               </Field>
 
-              {/* Turnstile placeholder */}
-              <div
-                style={{
-                  border: '1px solid var(--card-border)',
-                  padding: '1rem',
-                  marginBottom: '2rem',
-                  background: 'var(--card-bg)',
-                }}
-              >
-                <p style={{ ...sans, color: 'var(--text-muted)', fontSize: '0.75rem' }}>
-                  Spam protection will appear here (Cloudflare Turnstile — requires site key)
-                </p>
+              {/* Turnstile */}
+              <div className="mb-8">
+                {TURNSTILE_SITE_KEY ? (
+                  <Turnstile
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={(token) => set('turnstileToken', token)}
+                    onError={() => set('turnstileToken', '')}
+                    onExpire={() => set('turnstileToken', '')}
+                    options={{ theme: 'light', size: 'normal' }}
+                  />
+                ) : (
+                  process.env.NODE_ENV === 'development' && (
+                    <div
+                      style={{
+                        border: '1px solid var(--card-border)',
+                        padding: '1rem',
+                        background: 'var(--card-bg)',
+                      }}
+                    >
+                      <p style={{ ...sans, color: 'var(--text-muted)', fontSize: '0.75rem' }}>
+                        Spam protection (Cloudflare Turnstile) — add NEXT_PUBLIC_TURNSTILE_SITE_KEY to enable
+                      </p>
+                    </div>
+                  )
+                )}
               </div>
 
               {/* Accuracy confirmation */}
