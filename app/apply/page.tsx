@@ -103,7 +103,7 @@ export default function ApplyLandingPage() {
         >
           Every application is reviewed personally.
           <br />
-          We respond to every qualified application within 5 business days.
+          We respond to every qualified application within 15 business days.
         </p>
       </footer>
     </div>

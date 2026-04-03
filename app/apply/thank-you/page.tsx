@@ -55,7 +55,7 @@ export default function ThankYouPage() {
         >
           Your application has been received and will be reviewed personally.
           If your profile meets our standards, we will be in touch within
-          5 business days.
+          15 business days.
         </p>
 
         <p

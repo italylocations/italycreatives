@@ -216,7 +216,7 @@ export async function sendApplicationConfirmation(
       </p>
       <p style="margin:0 0 14px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
         We carefully evaluate every submission. If your profile meets our standards,
-        you will hear from us within 5 business days.
+        you will hear from us within 15 business days.
       </p>
       <p style="margin:0 0 32px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
         We look forward to reviewing your work.
