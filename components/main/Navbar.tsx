@@ -29,7 +29,7 @@ export default function Navbar() {
 
   useEffect(() => {
     function onScroll() {
-      setScrolled(window.scrollY > 8)
+      setScrolled(window.scrollY > 50)
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
@@ -81,7 +81,7 @@ export default function Navbar() {
                 color: pathname === l.href ? 'var(--accent-red)' : 'var(--text-secondary)',
                 textDecoration: 'none',
               }}
-              className="hover:opacity-70 transition-opacity"
+              className="hover:opacity-60 transition-opacity"
             >
               {l.label}
             </Link>

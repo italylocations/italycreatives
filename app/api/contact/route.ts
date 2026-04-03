@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   // Honeypot — silent 200 to bots
   if (payload.honeypot) {
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ success: true })
   }
 
   // Required field validation
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
 
   console.log('[contact] New inquiry:', payload.companyName, payload.email)
 
-  // Send admin email — if this fails the request still succeeds
+  // Admin email — failure doesn't block response
   try {
     await sendContactAdmin({
       companyName: payload.companyName,
@@ -82,12 +82,12 @@ export async function POST(request: Request) {
     console.error('[contact] Admin email failed:', err)
   }
 
-  // Send confirmation to sender — independent try/catch
+  // Confirmation to sender — independent try/catch
   try {
     await sendContactConfirmation(payload.email, payload.contactName)
   } catch (err) {
     console.error('[contact] Confirmation email failed:', err)
   }
 
-  return NextResponse.json({ ok: true })
+  return NextResponse.json({ success: true })
 }

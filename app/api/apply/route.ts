@@ -75,7 +75,7 @@ export async function POST(request: Request) {
 
   // Honeypot — silent 200 to bots
   if (p.honeypot) {
-    return NextResponse.json({ ok: true })
+    return NextResponse.json({ success: true })
   }
 
   // Required field validation
@@ -230,5 +230,5 @@ export async function POST(request: Request) {
     }
   }
 
-  return NextResponse.json({ ok: true, tier: tierLetter, score })
+  return NextResponse.json({ success: true, tier: tierLetter, score })
 }

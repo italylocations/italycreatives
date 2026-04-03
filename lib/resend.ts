@@ -1,17 +1,16 @@
 import { Resend } from 'resend'
 
-// Lazy init — avoids build-time crash when RESEND_API_KEY is empty
-function getClient(): Resend {
-  const key = process.env.RESEND_API_KEY
-  if (!key) throw new Error('RESEND_API_KEY is not set')
-  return new Resend(key)
-}
-
 const FROM = process.env.EMAIL_FROM ?? 'noreply@italycreatives.com'
 const TO_NICOLAS = process.env.EMAIL_NICOLAS ?? 'nicolas@nreal.it'
 const SHEET_URL = process.env.GOOGLE_SHEET_ID
   ? `https://docs.google.com/spreadsheets/d/${process.env.GOOGLE_SHEET_ID}`
   : 'https://docs.google.com/spreadsheets'
+
+function getClient(): Resend | null {
+  const key = process.env.RESEND_API_KEY
+  if (!key) return null
+  return new Resend(key)
+}
 
 // ─── shared HTML helpers ──────────────────────────────────────────────────────
 
@@ -28,16 +27,16 @@ function htmlWrap(content: string): string {
   <tr><td>
     <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;margin:0 auto;">
 
-      <!-- Logo row -->
+      <!-- Logo -->
       <tr>
         <td style="padding-bottom:40px;border-bottom:1px solid rgba(255,255,255,0.08);">
-          <span style="font-family:Georgia,serif;font-size:1.1rem;font-style:italic;color:#F8F5F0;letter-spacing:0.02em;">
+          <span style="font-family:Georgia,serif;font-size:1.1rem;font-style:italic;color:#F8F5F0;">
             <span style="color:#8B0000;">I</span>taly<span style="color:#8B0000;">C</span>reatives
           </span>
         </td>
       </tr>
 
-      <!-- Content -->
+      <!-- Body -->
       <tr>
         <td style="padding-top:40px;">
           ${content}
@@ -46,10 +45,10 @@ function htmlWrap(content: string): string {
 
       <!-- Footer -->
       <tr>
-        <td style="padding-top:40px;border-top:1px solid rgba(255,255,255,0.08);margin-top:40px;">
-          <p style="margin:0;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.25);">
+        <td style="padding-top:40px;border-top:1px solid rgba(255,255,255,0.08);">
+          <p style="margin:0;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,0.2);">
             ItalyCreatives &nbsp;·&nbsp; Rome, Italy &nbsp;·&nbsp;
-            <a href="https://italycreatives.com" style="color:rgba(255,255,255,0.25);text-decoration:none;">italycreatives.com</a>
+            <a href="https://italycreatives.com" style="color:rgba(255,255,255,0.2);text-decoration:none;">italycreatives.com</a>
           </p>
         </td>
       </tr>
@@ -61,14 +60,14 @@ function htmlWrap(content: string): string {
 </html>`
 }
 
-function row(label: string, value: string): string {
+function tdRow(label: string, value: string): string {
   return `
   <tr>
-    <td style="padding:6px 0;vertical-align:top;width:160px;">
-      <span style="font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);">${label}</span>
+    <td style="padding:5px 0;vertical-align:top;width:150px;">
+      <span style="font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);">${label}</span>
     </td>
-    <td style="padding:6px 0;vertical-align:top;">
-      <span style="font-size:0.9rem;color:#F8F5F0;">${value || '—'}</span>
+    <td style="padding:5px 0;vertical-align:top;">
+      <span style="font-size:0.88rem;color:#F8F5F0;">${value || '—'}</span>
     </td>
   </tr>`
 }
@@ -78,41 +77,50 @@ function row(label: string, value: string): string {
 export async function sendContactConfirmation(
   to: string,
   name: string
-): Promise<void> {
-  const html = htmlWrap(`
-    <p style="margin:0 0 24px;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.35);">
-      Inquiry Received
-    </p>
-    <h1 style="margin:0 0 24px;font-family:Georgia,serif;font-size:1.8rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.2;">
-      Thank you for reaching out.
-    </h1>
-    <p style="margin:0 0 16px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      Hi ${name},
-    </p>
-    <p style="margin:0 0 16px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      We have received your production brief and will respond within 24 hours
-      with crew availability and next steps.
-    </p>
-    <p style="margin:0 0 32px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      For urgent requests, you can also reach us directly at
-      <a href="mailto:info@italycreatives.com" style="color:#8B0000;text-decoration:none;">info@italycreatives.com</a>
-    </p>
-    <p style="margin:0;font-size:0.85rem;color:rgba(255,255,255,0.35);font-style:italic;">
-      — ItalyCreatives
-    </p>
-  `)
+): Promise<boolean> {
+  const client = getClient()
+  if (!client) {
+    console.log('[resend] RESEND_API_KEY not set — contact confirmation not sent')
+    return false
+  }
 
-  const { error } = await getClient().emails.send({
-    from: FROM,
-    to,
-    subject: 'Your inquiry — ItalyCreatives',
-    html,
-  })
+  try {
+    const html = htmlWrap(`
+      <p style="margin:0 0 24px;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Inquiry Received</p>
+      <h1 style="margin:0 0 24px;font-family:Georgia,serif;font-size:1.7rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.15;">
+        Thank you for reaching out.
+      </h1>
+      <p style="margin:0 0 14px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">Hi ${name},</p>
+      <p style="margin:0 0 14px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
+        We have received your production brief and will respond within 24 hours
+        with crew availability and next steps.
+      </p>
+      <p style="margin:0 0 32px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
+        For urgent requests, you can also reach us directly:
+        <a href="mailto:info@italycreatives.com" style="color:#8B0000;text-decoration:none;">info@italycreatives.com</a>
+      </p>
+      <p style="margin:0;font-size:0.85rem;color:rgba(255,255,255,0.3);font-style:italic;">— ItalyCreatives</p>
+    `)
 
-  if (error) throw new Error(`Resend error (contact confirm): ${error.message}`)
+    const { error } = await client.emails.send({
+      from: FROM,
+      to,
+      subject: 'Your inquiry — ItalyCreatives',
+      html,
+    })
+
+    if (error) {
+      console.error('[resend] Contact confirmation error:', error.message)
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[resend] Contact confirmation exception:', err)
+    return false
+  }
 }
 
-// ─── contact admin → Nicolas ──────────────────────────────────────────────────
+// ─── contact admin brief → Nicolas ────────────────────────────────────────────
 
 export interface ContactAdminData {
   companyName: string
@@ -129,46 +137,59 @@ export interface ContactAdminData {
   referral?: string
 }
 
-export async function sendContactAdmin(data: ContactAdminData): Promise<void> {
-  const html = htmlWrap(`
-    <p style="margin:0 0 24px;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.35);">
-      New Production Inquiry
-    </p>
-    <h1 style="margin:0 0 32px;font-family:Georgia,serif;font-size:1.6rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.2;">
-      ${data.companyName}
-    </h1>
-    <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;">
-      ${row('Contact', data.contactName)}
-      ${row('Email', `<a href="mailto:${data.email}" style="color:#8B0000;text-decoration:none;">${data.email}</a>`)}
-      ${row('Phone', data.phone ?? '—')}
-      ${row('Project type', data.projectType)}
-      ${row('Crew needed', data.crewNeeded.join(', '))}
-      ${row('People', data.numberOfPeople)}
-      ${row('Dates', data.shootingDates)}
-      ${row('Location', data.locationItaly)}
-      ${row('Budget / day', data.budgetRange ?? '—')}
-      ${row('Referral', data.referral ?? '—')}
-    </table>
-    ${data.notes ? `
-    <div style="margin-top:24px;padding:16px;border:1px solid rgba(255,255,255,0.08);">
-      <p style="margin:0 0 8px;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);">Additional Notes</p>
-      <p style="margin:0;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">${data.notes}</p>
-    </div>` : ''}
-    <div style="margin-top:32px;">
-      <a href="mailto:${data.email}" style="display:inline-block;background:#8B0000;color:#fff;text-decoration:none;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;padding:12px 28px;">
-        Reply to ${data.contactName}
-      </a>
-    </div>
-  `)
+export async function sendContactAdmin(data: ContactAdminData): Promise<boolean> {
+  const client = getClient()
+  if (!client) {
+    console.log('[resend] RESEND_API_KEY not set — contact admin not sent')
+    return false
+  }
 
-  const { error } = await getClient().emails.send({
-    from: FROM,
-    to: TO_NICOLAS,
-    subject: `New inquiry — ${data.companyName} (${data.projectType})`,
-    html,
-  })
+  try {
+    const html = htmlWrap(`
+      <p style="margin:0 0 8px;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.3);">New Production Inquiry</p>
+      <h1 style="margin:0 0 28px;font-family:Georgia,serif;font-size:1.5rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.15;">
+        ${data.companyName}
+      </h1>
+      <table cellpadding="0" cellspacing="0" style="width:100%;">
+        ${tdRow('Contact', data.contactName)}
+        ${tdRow('Email', `<a href="mailto:${data.email}" style="color:#8B0000;text-decoration:none;">${data.email}</a>`)}
+        ${tdRow('Phone', data.phone ?? '—')}
+        ${tdRow('Project type', data.projectType)}
+        ${tdRow('Crew needed', data.crewNeeded.join(', '))}
+        ${tdRow('People', data.numberOfPeople)}
+        ${tdRow('Dates', data.shootingDates)}
+        ${tdRow('Location', data.locationItaly)}
+        ${tdRow('Budget / day', data.budgetRange ?? '—')}
+        ${tdRow('Referral', data.referral ?? '—')}
+      </table>
+      ${data.notes ? `
+      <div style="margin-top:20px;padding:14px;border:1px solid rgba(255,255,255,0.08);">
+        <p style="margin:0 0 6px;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Notes</p>
+        <p style="margin:0;font-size:0.88rem;line-height:1.75;color:rgba(248,245,240,0.6);">${data.notes}</p>
+      </div>` : ''}
+      <div style="margin-top:28px;">
+        <a href="mailto:${data.email}" style="display:inline-block;background:#8B0000;color:#fff;text-decoration:none;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;padding:11px 24px;">
+          Reply to ${data.contactName}
+        </a>
+      </div>
+    `)
 
-  if (error) throw new Error(`Resend error (contact admin): ${error.message}`)
+    const { error } = await client.emails.send({
+      from: FROM,
+      to: TO_NICOLAS,
+      subject: `New production inquiry — ${data.companyName} — ${data.projectType}`,
+      html,
+    })
+
+    if (error) {
+      console.error('[resend] Contact admin error:', error.message)
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[resend] Contact admin exception:', err)
+    return false
+  }
 }
 
 // ─── application confirmation → applicant ─────────────────────────────────────
@@ -176,43 +197,52 @@ export async function sendContactAdmin(data: ContactAdminData): Promise<void> {
 export async function sendApplicationConfirmation(
   to: string,
   name: string
-): Promise<void> {
-  const html = htmlWrap(`
-    <p style="margin:0 0 24px;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.35);">
-      Application Received
-    </p>
-    <h1 style="margin:0 0 24px;font-family:Georgia,serif;font-size:1.8rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.2;">
-      Thank you for applying.
-    </h1>
-    <p style="margin:0 0 16px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      Hi ${name},
-    </p>
-    <p style="margin:0 0 16px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      Your application has been received and will be reviewed personally.
-    </p>
-    <p style="margin:0 0 16px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      We carefully evaluate every submission. If your profile meets our standards,
-      you will hear from us within 5 business days.
-    </p>
-    <p style="margin:0 0 32px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
-      We look forward to reviewing your work.
-    </p>
-    <p style="margin:0;font-size:0.85rem;color:rgba(255,255,255,0.35);font-style:italic;">
-      — ItalyCreatives
-    </p>
-  `)
+): Promise<boolean> {
+  const client = getClient()
+  if (!client) {
+    console.log('[resend] RESEND_API_KEY not set — application confirmation not sent')
+    return false
+  }
 
-  const { error } = await getClient().emails.send({
-    from: FROM,
-    to,
-    subject: 'Application received — ItalyCreatives',
-    html,
-  })
+  try {
+    const html = htmlWrap(`
+      <p style="margin:0 0 24px;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Application Received</p>
+      <h1 style="margin:0 0 24px;font-family:Georgia,serif;font-size:1.7rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.15;">
+        Thank you for applying.
+      </h1>
+      <p style="margin:0 0 14px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">Hi ${name},</p>
+      <p style="margin:0 0 14px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
+        Your application has been received and will be reviewed personally.
+      </p>
+      <p style="margin:0 0 14px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
+        We carefully evaluate every submission. If your profile meets our standards,
+        you will hear from us within 5 business days.
+      </p>
+      <p style="margin:0 0 32px;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);">
+        We look forward to reviewing your work.
+      </p>
+      <p style="margin:0;font-size:0.85rem;color:rgba(255,255,255,0.3);font-style:italic;">— ItalyCreatives<br/>Rome, Italy<br/>italycreatives.com</p>
+    `)
 
-  if (error) throw new Error(`Resend error (apply confirm): ${error.message}`)
+    const { error } = await client.emails.send({
+      from: FROM,
+      to,
+      subject: 'Application received — ItalyCreatives',
+      html,
+    })
+
+    if (error) {
+      console.error('[resend] Apply confirmation error:', error.message)
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[resend] Apply confirmation exception:', err)
+    return false
+  }
 }
 
-// ─── application alert → Nicolas (Tier A only) ────────────────────────────────
+// ─── priority alert → Nicolas (Tier A only) ───────────────────────────────────
 
 export interface ApplicationAlertData {
   fullName: string
@@ -231,64 +261,74 @@ export async function sendApplicationAlertNicolas(
   data: ApplicationAlertData,
   score: number,
   tier: string
-): Promise<void> {
-  if (tier !== 'A') return
+): Promise<boolean> {
+  if (tier !== 'A') return false
 
-  const creditLine = (
-    c: { magazine: string; issue: string; link: string },
-    n: number
-  ) => {
-    if (!c.magazine) return ''
-    const linkPart = c.link
-      ? ` — <a href="${c.link}" style="color:#8B0000;text-decoration:none;">${c.link}</a>`
-      : ''
-    return `<p style="margin:0 0 8px;font-size:0.9rem;color:#F8F5F0;">${n}. ${c.magazine}${c.issue ? ' · ' + c.issue : ''}${linkPart}</p>`
+  const client = getClient()
+  if (!client) {
+    console.log('[resend] RESEND_API_KEY not set — priority alert not sent')
+    return false
   }
 
-  const html = htmlWrap(`
-    <p style="margin:0 0 8px;font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.35);">
-      ⭐ Priority Application — Tier A
-    </p>
-    <h1 style="margin:0 0 32px;font-family:Georgia,serif;font-size:1.6rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.2;">
-      ${data.fullName}
-    </h1>
+  try {
+    const creditLine = (
+      c: { magazine: string; issue: string; link: string },
+      n: number
+    ): string => {
+      if (!c.magazine) return ''
+      const linkPart = c.link
+        ? ` — <a href="${c.link}" style="color:#8B0000;text-decoration:none;">${c.link}</a>`
+        : ''
+      return `<p style="margin:0 0 6px;font-size:0.88rem;color:#F8F5F0;">${n}. ${c.magazine}${c.issue ? ' · ' + c.issue : ''}${linkPart}</p>`
+    }
 
-    <table cellpadding="0" cellspacing="0" style="width:100%;border-collapse:collapse;margin-bottom:32px;">
-      ${row('Specialization', data.specialization)}
-      ${row('Score', `<strong style="color:#8B0000;">${score}/100</strong>`)}
-      ${row('Rome-based', data.romeBasedOption)}
-      ${row('Portfolio', `<a href="${data.portfolioUrl}" style="color:#8B0000;text-decoration:none;">${data.portfolioUrl}</a>`)}
-      ${row('English', data.englishLevel)}
-      ${row('Editorials (12m)', data.editorialsLast12Months)}
-    </table>
+    const html = htmlWrap(`
+      <p style="margin:0 0 6px;font-size:0.68rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.3);">⭐ Priority Application — Tier A</p>
+      <h1 style="margin:0 0 28px;font-family:Georgia,serif;font-size:1.5rem;font-style:italic;font-weight:300;color:#F8F5F0;line-height:1.15;">
+        ${data.fullName}
+      </h1>
+      <table cellpadding="0" cellspacing="0" style="width:100%;margin-bottom:28px;">
+        ${tdRow('Specialization', data.specialization)}
+        ${tdRow('Score', `<strong style="color:#8B0000;">${score}/100</strong>`)}
+        ${tdRow('Rome-based', data.romeBasedOption)}
+        ${tdRow('Portfolio', `<a href="${data.portfolioUrl}" style="color:#8B0000;text-decoration:none;">${data.portfolioUrl}</a>`)}
+        ${tdRow('English', data.englishLevel)}
+        ${tdRow('Editorials (12m)', data.editorialsLast12Months)}
+      </table>
 
-    <p style="margin:0 0 12px;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);">
-      Top Credits
-    </p>
-    ${creditLine(data.credit1, 1)}
-    ${creditLine(data.credit2, 2)}
-    ${creditLine(data.credit3, 3)}
+      <p style="margin:0 0 10px;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Top Credits</p>
+      ${creditLine(data.credit1, 1)}
+      ${creditLine(data.credit2, 2)}
+      ${creditLine(data.credit3, 3)}
 
-    <div style="margin-top:24px;padding:16px;border-left:2px solid #8B0000;">
-      <p style="margin:0 0 8px;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.35);">Their words</p>
-      <p style="margin:0;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);font-style:italic;">
-        &ldquo;${data.englishSelfDescription}&rdquo;
-      </p>
-    </div>
+      <div style="margin-top:20px;padding:14px;border-left:2px solid #8B0000;">
+        <p style="margin:0 0 6px;font-size:0.68rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.3);">Their words</p>
+        <p style="margin:0;font-size:0.9rem;line-height:1.8;color:rgba(248,245,240,0.65);font-style:italic;">
+          &ldquo;${data.englishSelfDescription}&rdquo;
+        </p>
+      </div>
 
-    <div style="margin-top:32px;">
-      <a href="${SHEET_URL}" style="display:inline-block;background:#8B0000;color:#fff;text-decoration:none;font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;padding:12px 28px;">
-        Open Google Sheet
-      </a>
-    </div>
-  `)
+      <div style="margin-top:28px;">
+        <a href="${SHEET_URL}" style="display:inline-block;background:#8B0000;color:#fff;text-decoration:none;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;padding:11px 24px;">
+          Open Google Sheet
+        </a>
+      </div>
+    `)
 
-  const { error } = await getClient().emails.send({
-    from: FROM,
-    to: TO_NICOLAS,
-    subject: `⭐ Priority application — ${data.fullName} (${data.specialization}) — Score: ${score}/100`,
-    html,
-  })
+    const { error } = await client.emails.send({
+      from: FROM,
+      to: TO_NICOLAS,
+      subject: `⭐ Priority application — ${data.fullName} (${data.specialization}) — Score: ${score}/100`,
+      html,
+    })
 
-  if (error) throw new Error(`Resend error (apply alert): ${error.message}`)
+    if (error) {
+      console.error('[resend] Priority alert error:', error.message)
+      return false
+    }
+    return true
+  } catch (err) {
+    console.error('[resend] Priority alert exception:', err)
+    return false
+  }
 }

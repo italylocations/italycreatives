@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 
 const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? 'https://apply.italycreatives.com'
-const YEAR = new Date().getFullYear()
 
 const serif: React.CSSProperties = {
   fontFamily: 'var(--font-cormorant, Cormorant Garamond, Georgia, serif)',
@@ -10,151 +9,151 @@ const serif: React.CSSProperties = {
 const sans: React.CSSProperties = {
   fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
 }
-const lbl: React.CSSProperties = {
+const colLabel: React.CSSProperties = {
   ...sans,
   color: 'rgba(255,255,255,0.25)',
-  fontSize: '0.65rem',
+  fontSize: '0.62rem',
   letterSpacing: '0.25em',
   textTransform: 'uppercase',
-  marginBottom: '1rem',
   display: 'block',
+  marginBottom: '1.1rem',
 }
-const footerLink: React.CSSProperties = {
+const fLink: React.CSSProperties = {
   ...sans,
-  color: 'rgba(248,245,240,0.5)',
+  color: 'rgba(255,255,255,0.6)',
   textDecoration: 'none',
   fontSize: '0.85rem',
   display: 'block',
-  lineHeight: 1,
-  marginBottom: '0.75rem',
-  transition: 'color 0.15s',
+  marginBottom: '0.65rem',
 }
 
 export default function Footer() {
   return (
-    <footer style={{ background: 'var(--bg-dark)', borderTop: '1px solid rgba(255,255,255,0.06)' }}>
+    <footer
+      style={{
+        background: '#0D0D0D',
+        borderTop: '1px solid rgba(255,255,255,0.06)',
+      }}
+    >
       <div className="max-w-6xl mx-auto px-6 py-16">
 
-        {/* Top row */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16 pb-16"
-          style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
+        {/* Brand row */}
+        <div
+          className="mb-14 pb-14"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
         >
-          {/* Brand */}
-          <div className="md:col-span-1">
-            <Link
-              href="/"
-              style={{ ...serif, fontSize: '1.1rem', fontStyle: 'italic', color: '#F8F5F0', textDecoration: 'none', display: 'block', marginBottom: '0.75rem' }}
-              className="hover:opacity-70 transition-opacity"
-            >
-              <span style={{ color: 'var(--accent-red)' }}>I</span>taly
-              <span style={{ color: 'var(--accent-red)' }}>C</span>reatives
-            </Link>
-            <p style={{ ...sans, color: 'rgba(248,245,240,0.35)', fontSize: '0.82rem', lineHeight: 1.7 }}>
-              Rome&rsquo;s creative crew agency
-              <br />for international productions.
-            </p>
-          </div>
-
-          {/* Services */}
-          <div>
-            <span style={lbl}>Services</span>
-            {[
-              { label: 'Full Crew Management', href: '/services#full-crew-management' },
-              { label: 'Individual Booking', href: '/services#individual-artist-booking' },
-              { label: 'Extended Network', href: '/services#extended-network' },
-              { label: 'Bilingual Crew', href: '/services#bilingual-communication' },
-            ].map((l) => (
-              <Link key={l.href} href={l.href} style={footerLink} className="hover:!text-white transition-colors">
-                {l.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Crew */}
-          <div>
-            <span style={lbl}>Crew</span>
-            {[
-              { label: 'Makeup Artists', href: '/crew#makeup-artists' },
-              { label: 'Hair Stylists', href: '/crew#hair-stylists' },
-              { label: 'Fashion Stylists', href: '/crew#fashion-stylists' },
-              { label: 'Filmmakers', href: '/crew#filmmakers' },
-            ].map((l) => (
-              <Link key={l.href} href={l.href} style={footerLink} className="hover:!text-white transition-colors">
-                {l.label}
-              </Link>
-            ))}
-          </div>
-
-          {/* Company */}
-          <div>
-            <span style={lbl}>Company</span>
-            {[
-              { label: 'About', href: '/about' },
-              { label: 'Blog', href: '/blog' },
-              { label: 'Contact', href: '/contact' },
-              { label: 'Privacy Policy', href: '/privacy-policy' },
-            ].map((l) => (
-              <Link key={l.href} href={l.href} style={footerLink} className="hover:!text-white transition-colors">
-                {l.label}
-              </Link>
-            ))}
-
-            {/* Apply */}
-            <a
-              href={APPLY_URL}
-              style={{ ...footerLink, color: 'var(--accent-gold)', marginTop: '1rem' }}
-              className="hover:opacity-80 transition-opacity flex items-center gap-1.5"
-            >
-              Join the Roster
-              <ExternalLink size={11} strokeWidth={1.5} color="var(--accent-gold)" />
-            </a>
-          </div>
+          <Link
+            href="/"
+            style={{
+              ...serif,
+              fontSize: '1.2rem',
+              fontStyle: 'italic',
+              color: '#F8F5F0',
+              textDecoration: 'none',
+              display: 'inline-block',
+              marginBottom: '0.6rem',
+            }}
+            className="hover:opacity-70 transition-opacity"
+          >
+            <span style={{ color: '#8B0000' }}>I</span>taly
+            <span style={{ color: '#8B0000' }}>C</span>reatives
+          </Link>
+          <p
+            style={{
+              ...sans,
+              color: 'rgba(255,255,255,0.35)',
+              fontSize: '0.85rem',
+              lineHeight: 1.7,
+            }}
+          >
+            Rome&rsquo;s creative crew agency for international productions.
+          </p>
         </div>
 
-        {/* Ecosystem */}
-        <div className="mb-12 pb-12" style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
-          <span style={lbl}>The Italy Production Ecosystem</span>
-          <div className="flex flex-wrap gap-8">
+        {/* 3-column grid */}
+        <div
+          className="grid grid-cols-1 sm:grid-cols-3 gap-12 mb-14 pb-14"
+          style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}
+        >
+          {/* Col 1 — Navigate */}
+          <div>
+            <span style={colLabel}>Navigate</span>
             {[
-              { name: 'NREAL', url: 'https://nreal.it', desc: 'Production & Direction' },
-              { name: 'ItalyLocations', url: 'https://italylocations.com', desc: 'Location Scouting' },
-              { name: 'ItalyCreatives', url: 'https://italycreatives.com', desc: 'Creative Crew Agency', self: true },
+              { label: 'Services', href: '/services' },
+              { label: 'Crew', href: '/crew' },
+              { label: 'About', href: '/about' },
+              { label: 'Contact', href: '/contact' },
+              { label: 'Blog', href: '/blog' },
+            ].map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                style={fLink}
+                className="hover:!text-white transition-colors"
+              >
+                {l.label}
+              </Link>
+            ))}
+          </div>
+
+          {/* Col 2 — Join */}
+          <div>
+            <span style={colLabel}>Join</span>
+            <a
+              href={APPLY_URL}
+              style={{ ...fLink, color: '#C4A882', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+              className="hover:opacity-75 transition-opacity"
+            >
+              Apply to join our roster
+              <ExternalLink size={11} strokeWidth={1.5} color="#C4A882" />
+            </a>
+            <Link
+              href="/privacy-policy"
+              style={fLink}
+              className="hover:!text-white transition-colors"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+
+          {/* Col 3 — The Network */}
+          <div>
+            <span style={colLabel}>The Network</span>
+            {[
+              { name: 'NREAL', url: 'https://nreal.it' },
+              { name: 'ItalyLocations', url: 'https://italylocations.com' },
             ].map((node) => (
               <a
                 key={node.name}
                 href={node.url}
-                target={node.self ? undefined : '_blank'}
-                rel={node.self ? undefined : 'noopener noreferrer'}
-                style={{ textDecoration: 'none' }}
-                className="hover:opacity-70 transition-opacity flex items-center gap-2"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  ...fLink,
+                  color: '#C4A882',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.4rem',
+                }}
+                className="hover:opacity-75 transition-opacity"
               >
-                <span style={{ ...serif, color: '#F8F5F0', fontSize: '0.95rem', fontStyle: 'italic' }}>
-                  {node.name}
-                </span>
-                <span style={{ ...sans, color: 'rgba(255,255,255,0.25)', fontSize: '0.7rem' }}>
-                  {node.desc}
-                </span>
-                {!node.self && (
-                  <ExternalLink size={11} strokeWidth={1.5} color="rgba(255,255,255,0.2)" />
-                )}
+                {node.name}
+                <ExternalLink size={11} strokeWidth={1.5} color="#C4A882" />
               </a>
             ))}
           </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <p style={{ ...sans, color: 'rgba(255,255,255,0.2)', fontSize: '0.75rem' }}>
-            © {YEAR} ItalyCreatives. Rome, Italy.
-          </p>
-          <Link
-            href="/privacy-policy"
-            style={{ ...sans, color: 'rgba(255,255,255,0.2)', fontSize: '0.75rem', textDecoration: 'none' }}
-            className="hover:opacity-60 transition-opacity"
-          >
-            Privacy Policy
-          </Link>
-        </div>
+        <p
+          style={{
+            ...sans,
+            color: '#9A9590',
+            fontSize: '0.72rem',
+          }}
+        >
+          &copy; 2026 ItalyCreatives. Rome, Italy.
+        </p>
 
       </div>
     </footer>
