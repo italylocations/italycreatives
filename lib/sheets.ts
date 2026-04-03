@@ -9,8 +9,14 @@ function getAuthClient() {
   let credentials: Record<string, unknown>
   try {
     credentials = JSON.parse(raw) as Record<string, unknown>
-  } catch {
+  } catch (err) {
+    console.error('[sheets] JSON.parse failed on GOOGLE_SERVICE_ACCOUNT_JSON:', err)
     throw new Error('GOOGLE_SERVICE_ACCOUNT_JSON is not valid JSON')
+  }
+
+  // Vercel stores env vars with escaped newlines — fix private_key so auth works
+  if (typeof credentials.private_key === 'string') {
+    credentials.private_key = (credentials.private_key as string).replace(/\\n/g, '\n')
   }
 
   return new google.auth.GoogleAuth({
@@ -33,15 +39,20 @@ export async function appendRow(
   sheetName: string,
   values: CellValue[]
 ): Promise<void> {
+  const spreadsheetId = getSheetId()
   const auth = getAuthClient()
   const sheets = google.sheets({ version: 'v4', auth })
 
+  console.log(`[sheets] appendRow → sheet="${sheetName}" spreadsheetId="${spreadsheetId}" cols=${values.length}`)
+
   await sheets.spreadsheets.values.append({
-    spreadsheetId: getSheetId(),
+    spreadsheetId,
     range: `${sheetName}!A1`,
     valueInputOption: 'USER_ENTERED',
     requestBody: { values: [values] },
   })
+
+  console.log(`[sheets] appendRow OK`)
 }
 
 /**

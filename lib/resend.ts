@@ -8,7 +8,10 @@ const SHEET_URL = process.env.GOOGLE_SHEET_ID
 
 function getClient(): Resend | null {
   const key = process.env.RESEND_API_KEY
-  if (!key) return null
+  if (!key) {
+    console.warn('[resend] RESEND_API_KEY is not set')
+    return null
+  }
   return new Resend(key)
 }
 
@@ -200,9 +203,11 @@ export async function sendApplicationConfirmation(
 ): Promise<boolean> {
   const client = getClient()
   if (!client) {
-    console.log('[resend] RESEND_API_KEY not set — application confirmation not sent')
+    console.warn('[resend] RESEND_API_KEY not set — application confirmation not sent')
     return false
   }
+
+  console.log(`[resend] sendApplicationConfirmation → to="${to}" from="${FROM}"`)
 
   try {
     const html = htmlWrap(`
@@ -232,9 +237,10 @@ export async function sendApplicationConfirmation(
     })
 
     if (error) {
-      console.error('[resend] Apply confirmation error:', error.message)
+      console.error('[resend] Apply confirmation error:', error.message, error)
       return false
     }
+    console.log('[resend] Apply confirmation sent OK')
     return true
   } catch (err) {
     console.error('[resend] Apply confirmation exception:', err)
