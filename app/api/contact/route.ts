@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { sendContactConfirmation, sendContactAdmin } from '@/lib/resend'
 
 interface ContactPayload {
   companyName: string
@@ -27,13 +28,12 @@ export async function POST(request: Request) {
 
   const payload = body as ContactPayload
 
-  // Honeypot check — bots fill hidden fields, humans don't
+  // Honeypot — silent 200 to bots
   if (payload.honeypot) {
-    // Return 200 to not reveal detection to bots
     return NextResponse.json({ ok: true })
   }
 
-  // Basic required field validation
+  // Required field validation
   const required: (keyof ContactPayload)[] = [
     'companyName',
     'contactName',
@@ -48,33 +48,46 @@ export async function POST(request: Request) {
   for (const field of required) {
     const val = payload[field]
     if (!val || (Array.isArray(val) && val.length === 0)) {
-      return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 })
+      return NextResponse.json(
+        { error: `Missing required field: ${field}` },
+        { status: 400 }
+      )
     }
   }
 
-  // Email format check
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
   if (!emailRegex.test(payload.email)) {
     return NextResponse.json({ error: 'Invalid email address' }, { status: 400 })
   }
 
-  // Log submission (Resend integration to be added)
-  console.log('[contact] New inquiry:', {
-    company: payload.companyName,
-    contact: payload.contactName,
-    email: payload.email,
-    projectType: payload.projectType,
-    crew: payload.crewNeeded,
-    people: payload.numberOfPeople,
-    dates: payload.shootingDates,
-    location: payload.locationItaly,
-    budget: payload.budgetRange,
-    referral: payload.referral,
-  })
+  console.log('[contact] New inquiry:', payload.companyName, payload.email)
 
-  // TODO: integrate Resend
-  // - Send admin email to EMAIL_NICOLAS with full brief
-  // - Send auto-confirm to payload.email
+  // Send admin email — if this fails the request still succeeds
+  try {
+    await sendContactAdmin({
+      companyName: payload.companyName,
+      contactName: payload.contactName,
+      email: payload.email,
+      phone: payload.phone,
+      projectType: payload.projectType,
+      crewNeeded: payload.crewNeeded,
+      numberOfPeople: payload.numberOfPeople,
+      shootingDates: payload.shootingDates,
+      locationItaly: payload.locationItaly,
+      budgetRange: payload.budgetRange,
+      notes: payload.notes,
+      referral: payload.referral,
+    })
+  } catch (err) {
+    console.error('[contact] Admin email failed:', err)
+  }
+
+  // Send confirmation to sender — independent try/catch
+  try {
+    await sendContactConfirmation(payload.email, payload.contactName)
+  } catch (err) {
+    console.error('[contact] Confirmation email failed:', err)
+  }
 
   return NextResponse.json({ ok: true })
 }

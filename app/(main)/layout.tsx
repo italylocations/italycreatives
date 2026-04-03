@@ -1,5 +1,7 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
+import Navbar from '@/components/main/Navbar'
+import Footer from '@/components/main/Footer'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -58,7 +60,9 @@ export default function MainLayout({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
       />
+      <Navbar />
       {children}
+      <Footer />
     </div>
   )
 }

@@ -1,6 +1,10 @@
 import { NextResponse } from 'next/server'
 import { calculateScore, classifyScore, getTierLetter } from '@/lib/scoring'
 import { appendRow } from '@/lib/sheets'
+import {
+  sendApplicationConfirmation,
+  sendApplicationAlertNicolas,
+} from '@/lib/resend'
 
 interface Credit {
   magazine: string
@@ -194,6 +198,37 @@ export async function POST(request: Request) {
   }
 
   console.log(`[apply] New application — ${p.fullName} (${p.specialization}) — Score: ${score}/100 — ${tier}`)
+
+  // Send confirmation to applicant — always
+  try {
+    await sendApplicationConfirmation(p.email, p.fullName)
+  } catch (err) {
+    console.error('[apply] Confirmation email failed:', err)
+  }
+
+  // Send priority alert to Nicolas — Tier A only (score >= 80)
+  if (tierLetter === 'A') {
+    try {
+      await sendApplicationAlertNicolas(
+        {
+          fullName: p.fullName,
+          specialization: p.specialization,
+          romeBasedOption: p.romeBasedOption,
+          portfolioUrl: p.portfolioUrl,
+          englishLevel: p.englishLevel,
+          editorialsLast12Months: p.editorialsLast12Months,
+          credit1: p.credit1,
+          credit2: p.credit2,
+          credit3: p.credit3,
+          englishSelfDescription: p.englishSelfDescription,
+        },
+        score,
+        tierLetter
+      )
+    } catch (err) {
+      console.error('[apply] Alert email failed:', err)
+    }
+  }
 
   return NextResponse.json({ ok: true, tier: tierLetter, score })
 }
