@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Scissors, Sparkles, Shirt, Film, ArrowRight } from 'lucide-react'
+import { Scissors, Sparkles, Shirt, Film } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'ItalyCreatives — Creative Crew Agency Rome Italy',
@@ -225,14 +225,9 @@ export default function HomePage() {
                 <p style={{ ...body, fontSize: '0.85rem', lineHeight: 1.85, flex: 1 }}>
                   {item.description}
                 </p>
-                <Link
-                  href={`/crew/${item.slug}`}
-                  style={{ ...uiText, color: 'var(--accent-red)' }}
-                  className="flex items-center gap-2 hover:opacity-70 transition-opacity"
-                >
-                  View Roster
-                  <ArrowRight size={12} strokeWidth={1.5} color="var(--accent-red)" />
-                </Link>
+                <p style={{ ...uiText, color: 'var(--text-muted)', fontSize: '0.68rem' }}>
+                  Available for international productions
+                </p>
               </div>
             ))}
           </div>

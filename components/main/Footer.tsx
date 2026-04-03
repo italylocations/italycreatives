@@ -82,7 +82,6 @@ export default function Footer() {
             <span style={colLabel}>Navigate</span>
             {[
               { label: 'Services', href: '/services' },
-              { label: 'Crew', href: '/crew' },
               { label: 'About', href: '/about' },
               { label: 'Contact', href: '/contact' },
               { label: 'Blog', href: '/blog' },
