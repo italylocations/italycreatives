@@ -85,11 +85,14 @@ const required: (keyof ApplyPayload)[] = [
 ]
 
 export async function POST(request: Request) {
+  console.log('[apply] POST /api/apply received')
+
   let body: unknown
 
   try {
     body = await request.json()
   } catch {
+    console.error('[apply] Failed to parse request body')
     return NextResponse.json({ error: 'Invalid request body' }, { status: 400 })
   }
 

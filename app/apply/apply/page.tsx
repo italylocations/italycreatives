@@ -233,10 +233,18 @@ export default function ApplyFormPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       })
-      if (!res.ok) {
-        const json = await res.json().catch(() => ({}))
-        throw new Error((json as { error?: string }).error ?? 'Submission failed')
+
+      let json: { success?: boolean; error?: string } = {}
+      try {
+        json = await res.json()
+      } catch {
+        throw new Error('Server returned an unreadable response')
       }
+
+      if (!res.ok || json.success !== true) {
+        throw new Error(json.error ?? `Request failed (${res.status})`)
+      }
+
       // Navigate to thank-you — proxy rewrites /thank-you → /apply/thank-you on subdomain
       router.push('/thank-you')
     } catch (err) {
