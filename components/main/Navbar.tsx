@@ -17,6 +17,7 @@ const serif: React.CSSProperties = {
 const navLinks = [
   { label: 'Services', href: '/services' },
   { label: 'About', href: '/about' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ]
 

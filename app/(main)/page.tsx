@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Scissors, Sparkles, Shirt, Film } from 'lucide-react'
+import { getAllPosts, formatDate } from '@/lib/blog'
 
 export const metadata: Metadata = {
   title: 'ItalyCreatives — Creative Crew Agency Rome Italy',
@@ -50,6 +51,8 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 // ─── page ────────────────────────────────────────────────────────────────────
 
 export default function HomePage() {
+  const recentPosts = getAllPosts().slice(0, 3)
+
   return (
     <div style={{ background: 'var(--bg-primary)' }}>
 
@@ -499,6 +502,116 @@ export default function HomePage() {
                 <p style={{ ...body, fontSize: '0.85rem', lineHeight: 1.85 }}>
                   {node.description}
                 </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── 5b. FROM THE BLOG ────────────────────────────────────────────── */}
+      <section
+        style={{ borderBottom: '1px solid var(--card-border)' }}
+        className="px-6 py-28"
+      >
+        <div className="max-w-5xl mx-auto">
+          <SectionLabel>From the Blog</SectionLabel>
+
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 mb-12">
+            <h2
+              style={{ ...heading, fontSize: 'clamp(1.6rem, 3.5vw, 2.4rem)', fontWeight: 300 }}
+              className="italic leading-tight"
+            >
+              Insights for international
+              <br />
+              productions in Italy.
+            </h2>
+            <Link
+              href="/blog"
+              style={{
+                fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+                fontSize: '0.72rem',
+                letterSpacing: '0.12em',
+                textTransform: 'uppercase',
+                color: 'var(--accent-red)',
+                textDecoration: 'none',
+                flexShrink: 0,
+              }}
+              className="hover:opacity-70 transition-opacity"
+            >
+              View all articles →
+            </Link>
+          </div>
+
+          <div
+            className="grid grid-cols-1 md:grid-cols-3"
+            style={{ border: '1px solid var(--card-border)' }}
+          >
+            {recentPosts.map((post, i) => (
+              <div
+                key={post.slug}
+                style={{
+                  borderRight: i < 2 ? '1px solid var(--card-border)' : 'none',
+                }}
+                className="p-7 flex flex-col gap-3"
+              >
+                <div className="flex items-center gap-3">
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+                      fontSize: '0.65rem',
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      color: 'var(--accent-red)',
+                    }}
+                  >
+                    {post.tags[0]}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+                      fontSize: '0.7rem',
+                      color: 'var(--text-muted)',
+                    }}
+                  >
+                    {formatDate(post.date)}
+                  </span>
+                </div>
+                <Link href={`/blog/${post.slug}`} style={{ textDecoration: 'none' }}>
+                  <h3
+                    style={{ ...heading, fontSize: '1.15rem', fontWeight: 400, lineHeight: 1.3 }}
+                    className="italic hover:opacity-70 transition-opacity"
+                  >
+                    {post.title}
+                  </h3>
+                </Link>
+                <p
+                  style={{
+                    ...body,
+                    fontSize: '0.82rem',
+                    lineHeight: 1.7,
+                    display: '-webkit-box',
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: 'vertical',
+                    overflow: 'hidden',
+                  } as React.CSSProperties}
+                >
+                  {post.excerpt}
+                </p>
+                <Link
+                  href={`/blog/${post.slug}`}
+                  style={{
+                    fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+                    fontSize: '0.7rem',
+                    letterSpacing: '0.1em',
+                    textTransform: 'uppercase',
+                    color: 'var(--accent-red)',
+                    textDecoration: 'none',
+                    marginTop: 'auto',
+                  }}
+                  className="hover:opacity-70 transition-opacity"
+                >
+                  Read →
+                </Link>
               </div>
             ))}
           </div>
