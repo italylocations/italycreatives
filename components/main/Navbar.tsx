@@ -38,6 +38,7 @@ export default function Navbar() {
   }, [pathname])
 
   const solid = !isHome || scrolled
+  const logoInverted = isHome && !scrolled
 
   const navStyle: React.CSSProperties = {
     position: 'sticky',
@@ -61,7 +62,17 @@ export default function Navbar() {
           className="hover:opacity-70 transition-opacity"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="ItalyCreatives" style={{ height: '32px', width: 'auto' }} className="h-8 w-auto" />
+          <img
+            src="/logo.svg"
+            alt="ItalyCreatives"
+            style={{
+              height: '32px',
+              width: 'auto',
+              filter: logoInverted ? 'brightness(0) invert(1)' : 'none',
+              transition: 'filter 0.25s ease',
+            }}
+            className="h-8 w-auto"
+          />
         </Link>
 
         {/* Desktop nav */}
@@ -75,8 +86,11 @@ export default function Navbar() {
                 fontSize: '0.75rem',
                 letterSpacing: '0.12em',
                 textTransform: 'uppercase',
-                color: pathname === l.href ? 'var(--accent-red)' : 'var(--text-secondary)',
+                color: pathname === l.href
+                  ? 'var(--accent-red)'
+                  : logoInverted ? 'rgba(248,245,240,0.8)' : 'var(--text-secondary)',
                 textDecoration: 'none',
+                transition: 'color 0.25s ease',
               }}
               className="hover:opacity-60 transition-opacity"
             >
@@ -91,8 +105,9 @@ export default function Navbar() {
               fontSize: '0.72rem',
               letterSpacing: '0.12em',
               textTransform: 'uppercase',
-              color: 'var(--text-muted)',
+              color: logoInverted ? 'rgba(248,245,240,0.55)' : 'var(--text-muted)',
               textDecoration: 'none',
+              transition: 'color 0.25s ease',
             }}
             className="hover:opacity-70 transition-opacity"
           >
@@ -125,8 +140,8 @@ export default function Navbar() {
           style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '4px' }}
         >
           {open
-            ? <X size={22} strokeWidth={1.5} color="var(--text-primary)" />
-            : <Menu size={22} strokeWidth={1.5} color="var(--text-primary)" />
+            ? <X size={22} strokeWidth={1.5} color={logoInverted ? '#F8F5F0' : 'var(--text-primary)'} />
+            : <Menu size={22} strokeWidth={1.5} color={logoInverted ? '#F8F5F0' : 'var(--text-primary)'} />
           }
         </button>
       </div>

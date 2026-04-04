@@ -58,54 +58,108 @@ export default function HomePage() {
 
       {/* ── 1. HERO ──────────────────────────────────────────────────────── */}
       <section
-        style={{ borderBottom: '1px solid var(--card-border)' }}
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          borderBottom: '1px solid var(--card-border)',
+        }}
         className="min-h-screen flex flex-col items-center justify-center px-6 py-32 text-center"
       >
-        <SectionLabel>Rome · Italy · Est. 2026</SectionLabel>
-
-        <h1
-          style={{ ...heading, lineHeight: 1.05 }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-light italic mb-8 max-w-5xl"
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{
+            position: 'absolute',
+            top: 0, left: 0,
+            width: '100%', height: '100%',
+            objectFit: 'cover',
+            zIndex: 0,
+          }}
         >
-          Creative Crew
-          <br />
-          for International
-          <br />
-          Productions.
-        </h1>
+          <source
+            src="https://pub-b328f685b3be4afb9a684f09c2306442.r2.dev/hero.mp4"
+            type="video/mp4"
+          />
+        </video>
 
-        <p
-          style={{ ...body, maxWidth: '36rem', lineHeight: 1.75 }}
-          className="text-base sm:text-lg mb-12"
-        >
-          We represent carefully selected makeup artists, hair stylists,
-          fashion stylists and filmmakers based in Rome, Italy.
-          Available for editorial, advertising and fashion productions worldwide.
-        </p>
+        {/* Dark overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          backgroundColor: 'rgba(13, 13, 13, 0.55)',
+          zIndex: 1,
+        }} />
 
-        <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center w-full sm:w-auto max-w-xs sm:max-w-none">
-          <Link
-            href="/contact"
+        {/* Content */}
+        <div style={{ position: 'relative', zIndex: 2, width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <p style={{
+            fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+            color: 'rgba(248,245,240,0.7)',
+            letterSpacing: '0.3em',
+            fontSize: '0.7rem',
+            textTransform: 'uppercase',
+            marginBottom: '1.5rem',
+          }}>
+            Rome · Italy · Est. 2026
+          </p>
+
+          <h1
             style={{
-              ...uiText,
-              background: 'var(--accent-red)',
-              color: '#fff',
+              fontFamily: 'var(--font-cormorant, Cormorant Garamond, Georgia, serif)',
+              color: '#F8F5F0',
+              lineHeight: 1.05,
             }}
-            className="px-10 py-4 text-center transition-opacity hover:opacity-80"
+            className="text-4xl sm:text-5xl md:text-7xl lg:text-9xl font-light italic mb-8 max-w-5xl"
           >
-            Book Our Crew
-          </Link>
-          <a
-            href={APPLY_URL}
+            Creative Crew
+            <br />
+            for International
+            <br />
+            Productions.
+          </h1>
+
+          <p
             style={{
-              ...uiText,
-              border: '1px solid var(--accent-red)',
-              color: 'var(--accent-red)',
+              fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
+              color: 'rgba(248,245,240,0.8)',
+              maxWidth: '36rem',
+              lineHeight: 1.75,
             }}
-            className="px-10 py-4 text-center transition-opacity hover:opacity-60"
+            className="text-base sm:text-lg mb-12"
           >
-            Join the Roster
-          </a>
+            We represent carefully selected makeup artists, hair stylists,
+            fashion stylists and filmmakers based in Rome, Italy.
+            Available for editorial, advertising and fashion productions worldwide.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-center w-full sm:w-auto max-w-xs sm:max-w-none">
+            <Link
+              href="/contact"
+              style={{
+                ...uiText,
+                background: 'var(--accent-red)',
+                color: '#fff',
+              }}
+              className="px-10 py-4 text-center transition-opacity hover:opacity-80"
+            >
+              Book Our Crew
+            </Link>
+            <a
+              href={APPLY_URL}
+              style={{
+                ...uiText,
+                border: '1px solid rgba(248,245,240,0.7)',
+                color: '#F8F5F0',
+              }}
+              className="px-10 py-4 text-center transition-opacity hover:opacity-60"
+            >
+              Join the Roster
+            </a>
+          </div>
         </div>
       </section>
 
