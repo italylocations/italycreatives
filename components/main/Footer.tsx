@@ -50,8 +50,8 @@ export default function Footer() {
             <img
               src="/logo.svg"
               alt="ItalyCreatives"
-              height={24}
-              style={{ height: '24px', width: 'auto', filter: 'brightness(0) invert(1)' }}
+              style={{ height: '28px', width: 'auto', filter: 'brightness(0) invert(1)' }}
+              className="h-7 w-auto"
             />
           </Link>
           <p

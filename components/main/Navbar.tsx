@@ -61,7 +61,7 @@ export default function Navbar() {
           className="hover:opacity-70 transition-opacity"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="ItalyCreatives" height={28} style={{ height: '28px', width: 'auto' }} />
+          <img src="/logo.svg" alt="ItalyCreatives" style={{ height: '32px', width: 'auto' }} className="h-8 w-auto" />
         </Link>
 
         {/* Desktop nav */}

@@ -56,7 +56,7 @@ export default function ApplyNavbar() {
           className="hover:opacity-70 transition-opacity"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo.svg" alt="ItalyCreatives" height={24} style={{ height: '24px', width: 'auto' }} />
+          <img src="/logo.svg" alt="ItalyCreatives" style={{ height: '28px', width: 'auto' }} className="h-7 w-auto" />
         </Link>
 
         {/* Spacer to balance the back link */}
