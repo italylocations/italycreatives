@@ -3,9 +3,6 @@ import { ExternalLink } from 'lucide-react'
 
 const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? 'https://apply.italycreatives.com'
 
-const serif: React.CSSProperties = {
-  fontFamily: 'var(--font-cormorant, Cormorant Garamond, Georgia, serif)',
-}
 const sans: React.CSSProperties = {
   fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
 }
@@ -46,19 +43,16 @@ export default function Footer() {
         >
           <Link
             href="/"
-            style={{
-              ...serif,
-              fontSize: '1.2rem',
-              fontStyle: 'italic',
-              color: '#F8F5F0',
-              textDecoration: 'none',
-              display: 'inline-block',
-              marginBottom: '0.6rem',
-            }}
+            style={{ textDecoration: 'none', display: 'inline-block', marginBottom: '0.6rem' }}
             className="hover:opacity-70 transition-opacity"
           >
-            <span style={{ color: '#8B0000' }}>I</span>taly
-            <span style={{ color: '#8B0000' }}>C</span>reatives
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/logo.svg"
+              alt="ItalyCreatives"
+              height={24}
+              style={{ height: '24px', width: 'auto', filter: 'brightness(0) invert(1)' }}
+            />
           </Link>
           <p
             style={{

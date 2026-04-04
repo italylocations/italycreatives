@@ -3,9 +3,6 @@ import { ArrowLeft } from 'lucide-react'
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://italycreatives.com'
 
-const serif: React.CSSProperties = {
-  fontFamily: 'var(--font-cormorant, Cormorant Garamond, Georgia, serif)',
-}
 const sans: React.CSSProperties = {
   fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
 }
@@ -49,19 +46,17 @@ export default function ApplyNavbar() {
         <Link
           href="/"
           style={{
-            ...serif,
-            fontSize: '1rem',
-            fontStyle: 'italic',
-            color: 'var(--text-primary)',
             textDecoration: 'none',
+            display: 'flex',
+            alignItems: 'center',
             position: 'absolute',
             left: '50%',
             transform: 'translateX(-50%)',
           }}
           className="hover:opacity-70 transition-opacity"
         >
-          <span style={{ color: 'var(--accent-red)' }}>I</span>taly
-          <span style={{ color: 'var(--accent-red)' }}>C</span>reatives
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="ItalyCreatives" height={24} style={{ height: '24px', width: 'auto' }} />
         </Link>
 
         {/* Spacer to balance the back link */}

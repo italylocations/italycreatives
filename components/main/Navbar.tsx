@@ -10,9 +10,6 @@ const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? 'https://apply.italycreat
 const sans: React.CSSProperties = {
   fontFamily: 'var(--font-dm-sans, DM Sans, system-ui, sans-serif)',
 }
-const serif: React.CSSProperties = {
-  fontFamily: 'var(--font-cormorant, Cormorant Garamond, Georgia, serif)',
-}
 
 const navLinks = [
   { label: 'Services', href: '/services' },
@@ -60,11 +57,11 @@ export default function Navbar() {
         {/* Logo */}
         <Link
           href="/"
-          style={{ ...serif, textDecoration: 'none', fontSize: '1.15rem', fontStyle: 'italic', color: 'var(--text-primary)' }}
+          style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}
           className="hover:opacity-70 transition-opacity"
         >
-          <span style={{ color: 'var(--accent-red)' }}>I</span>taly
-          <span style={{ color: 'var(--accent-red)' }}>C</span>reatives
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo.svg" alt="ItalyCreatives" height={28} style={{ height: '28px', width: 'auto' }} />
         </Link>
 
         {/* Desktop nav */}
