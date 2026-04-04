@@ -56,7 +56,7 @@ export default function BlogPage() {
         {/* ── Header ── */}
         <section
           style={{ borderBottom: '1px solid var(--card-border)' }}
-          className="px-6 py-24 text-center"
+          className="px-4 md:px-6 py-24 text-center"
         >
           <p style={label} className="mb-6">The Blog</p>
           <h1
@@ -70,7 +70,7 @@ export default function BlogPage() {
         </section>
 
         {/* ── Article grid ── */}
-        <section className="px-6 py-20">
+        <section className="px-4 md:px-6 py-20">
           <div className="max-w-5xl mx-auto">
             <div
               className="grid grid-cols-1 md:grid-cols-2"
@@ -79,11 +79,8 @@ export default function BlogPage() {
               {posts.map((post, i) => (
                 <article
                   key={post.slug}
-                  style={{
-                    borderRight: i % 2 === 0 ? '1px solid var(--card-border)' : 'none',
-                    borderBottom: '1px solid var(--card-border)',
-                  }}
-                  className="p-8 flex flex-col gap-4"
+                  className={`p-6 md:p-8 flex flex-col gap-4 border-b ${i % 2 === 0 ? 'md:border-r' : ''}`}
+                  style={{ borderColor: 'var(--card-border)' }}
                 >
                   {/* Date + Tag */}
                   <div className="flex items-center gap-4">
@@ -182,7 +179,7 @@ export default function BlogPage() {
             background: 'var(--bg-secondary)',
             borderTop: '1px solid var(--card-border)',
           }}
-          className="px-6 py-20 text-center"
+          className="px-4 md:px-6 py-20 text-center"
         >
           <div className="max-w-xl mx-auto">
             <p
@@ -203,7 +200,7 @@ export default function BlogPage() {
                 background: 'var(--accent-red)',
                 color: '#fff',
               }}
-              className="inline-block px-10 py-4 transition-opacity hover:opacity-80"
+              className="inline-block w-full sm:w-auto text-center px-10 py-4 transition-opacity hover:opacity-80"
             >
               Get in Touch
             </Link>

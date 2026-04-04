@@ -549,10 +549,8 @@ export default function HomePage() {
             {recentPosts.map((post, i) => (
               <div
                 key={post.slug}
-                style={{
-                  borderRight: i < 2 ? '1px solid var(--card-border)' : 'none',
-                }}
-                className="p-7 flex flex-col gap-3"
+                className={`p-7 flex flex-col gap-3 border-b md:border-b-0 ${i < 2 ? 'md:border-r' : ''}`}
+                style={{ borderColor: 'var(--card-border)' }}
               >
                 <div className="flex items-center gap-3">
                   <span

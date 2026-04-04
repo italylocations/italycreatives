@@ -155,7 +155,7 @@ export default async function BlogPostPage({ params }: Props) {
       />
 
       <div style={{ background: 'var(--bg-primary)' }}>
-        <div className="max-w-3xl mx-auto px-6 py-16">
+        <div className="max-w-3xl mx-auto px-4 md:px-6 py-16">
 
           {/* ── Breadcrumb ── */}
           <nav className="mb-10" aria-label="Breadcrumb">
@@ -221,7 +221,7 @@ export default async function BlogPostPage({ params }: Props) {
                 lineHeight: 1.1,
                 color: 'var(--text-primary)',
               }}
-              className="italic text-4xl md:text-5xl mb-8"
+              className="italic text-3xl md:text-5xl mb-8"
             >
               {post.title}
             </h1>
@@ -237,16 +237,16 @@ export default async function BlogPostPage({ params }: Props) {
           </header>
 
           {/* ── Article body ── */}
-          <div style={{ maxWidth: '680px' }}>
+          <div className="w-full" style={{ maxWidth: '680px' }}>
             <MDXRemote source={post.content} components={mdxComponents} />
           </div>
 
           {/* ── In-article CTA ── */}
           <div
+            className="p-6 md:p-8"
             style={{
               border: '1px solid var(--accent-red)',
               background: '#F0EBE3',
-              padding: '2rem',
               marginTop: '3rem',
               marginBottom: '3rem',
             }}
@@ -282,10 +282,8 @@ export default async function BlogPostPage({ params }: Props) {
                 background: 'var(--accent-red)',
                 color: '#fff',
                 textDecoration: 'none',
-                display: 'inline-block',
-                padding: '0.7rem 1.8rem',
               }}
-              className="hover:opacity-80 transition-opacity"
+              className="block sm:inline-block w-full sm:w-auto text-center px-8 py-3 hover:opacity-80 transition-opacity"
             >
               Get in Touch
             </Link>
@@ -297,7 +295,7 @@ export default async function BlogPostPage({ params }: Props) {
         {related.length > 0 && (
           <section
             style={{ borderTop: '1px solid var(--card-border)' }}
-            className="px-6 py-16"
+            className="px-4 md:px-6 py-16"
           >
             <div className="max-w-5xl mx-auto">
               <p
@@ -320,11 +318,8 @@ export default async function BlogPostPage({ params }: Props) {
                 {related.map((rel, i) => (
                   <div
                     key={rel.slug}
-                    style={{
-                      borderRight:
-                        i < related.length - 1 ? '1px solid var(--card-border)' : 'none',
-                    }}
-                    className="p-6 flex flex-col gap-3"
+                    className={`p-6 flex flex-col gap-3 border-b md:border-b-0 ${i < related.length - 1 ? 'md:border-r' : ''}`}
+                    style={{ borderColor: 'var(--card-border)' }}
                   >
                     {rel.tags[0] && (
                       <span
