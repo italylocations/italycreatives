@@ -29,6 +29,9 @@ export const metadata: Metadata = {
     locale: 'en_US',
     url: 'https://italycreatives.com',
     siteName: 'ItalyCreatives',
+    images: [
+      'https://pub-b328f685b3be4afb9a684f09c2306442.r2.dev/og-image1.png',
+    ],
   },
   twitter: { card: 'summary_large_image' },
   robots: { index: true, follow: true },
