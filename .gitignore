@@ -24,6 +24,11 @@
 .DS_Store
 *.pem
 
+# media (hosted on Cloudflare R2)
+*.mp4
+*.mov
+*.webm
+
 # debug
 npm-debug.log*
 yarn-debug.log*
