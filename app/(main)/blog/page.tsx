@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { getAllPosts, formatDate } from '@/lib/blog'
 
 export const metadata: Metadata = {
-  title: 'Blog — ItalyCreatives',
+  title: 'Blog',
   description:
     'Insights, guides and resources for international productions shooting in Italy. Creative crew, locations, fashion shoots and more.',
+  alternates: { canonical: 'https://italycreatives.com/blog' },
 }
 
 const sans: React.CSSProperties = {

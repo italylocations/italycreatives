@@ -4,9 +4,9 @@ import { Scissors, Sparkles, Shirt, Film } from 'lucide-react'
 import { getAllPosts, formatDate } from '@/lib/blog'
 
 export const metadata: Metadata = {
-  title: 'ItalyCreatives — Creative Crew Agency Rome Italy',
   description:
-    'Rome-based creative crew agency representing makeup artists, hair stylists, fashion stylists and filmmakers for international editorial and fashion productions in Italy.',
+    'Rome-based creative crew agency for international editorial and fashion productions. Makeup artists, hair stylists, fashion stylists and filmmakers in Italy.',
+  alternates: { canonical: 'https://italycreatives.com' },
 }
 
 const APPLY_URL = process.env.NEXT_PUBLIC_APPLY_URL ?? 'https://apply.italycreatives.com'

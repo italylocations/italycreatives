@@ -1,9 +1,10 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy — ItalyCreatives',
+  title: 'Privacy Policy',
   description: 'Privacy Policy for ItalyCreatives.',
   robots: { index: false, follow: false },
+  alternates: { canonical: 'https://italycreatives.com/privacy-policy' },
 }
 
 const sans: React.CSSProperties = {

@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Creative Crew Services — ItalyCreatives',
+  title: 'Creative Crew Services',
   description:
-    'ItalyCreatives is a creative crew agency Italy productions rely on for makeup artists, hair stylists, fashion stylists and filmmakers. Rome-based, English-speaking, vetted professionals.',
+    'Rome-based creative crew agency Italy productions rely on for makeup artists, hair stylists, fashion stylists and filmmakers. Vetted, English-speaking.',
+  alternates: { canonical: 'https://italycreatives.com/services' },
 }
 
 const serif: React.CSSProperties = {
@@ -116,9 +117,29 @@ const services = [
   },
 ]
 
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': services.map((s) => ({
+    '@type': 'Service',
+    name: s.title,
+    description: s.body[0],
+    provider: {
+      '@type': 'Organization',
+      name: 'ItalyCreatives',
+      url: 'https://italycreatives.com',
+    },
+    areaServed: { '@type': 'Country', name: 'Italy' },
+  })),
+}
+
 export default function ServicesPage() {
   return (
-    <div style={{ background: 'var(--bg-primary)' }}>
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div style={{ background: 'var(--bg-primary)' }}>
 
       {/* Header */}
       <section
@@ -243,6 +264,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-    </div>
+      </div>
+    </>
   )
 }

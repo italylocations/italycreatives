@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { ExternalLink } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'About — ItalyCreatives',
+  title: 'About',
   description:
-    'ItalyCreatives is Rome\'s only creative crew agency for international editorial and fashion productions. Founded to fill a real gap in the Italian production market.',
+    'ItalyCreatives is Rome\'s only creative crew agency for international editorial and fashion productions. Vetted makeup artists, stylists and filmmakers.',
+  alternates: { canonical: 'https://italycreatives.com/about' },
 }
 
 const serif: React.CSSProperties = {

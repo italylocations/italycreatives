@@ -3,9 +3,10 @@ import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 
 export const metadata: Metadata = {
-  title: 'Creative Crew Rome Italy — ItalyCreatives',
+  title: 'Creative Crew Rome Italy',
   description:
-    'Makeup artists, hair stylists, fashion stylists and filmmakers based in Rome, Italy. ItalyCreatives represents vetted creative professionals for international editorial and fashion productions.',
+    'Makeup artists, hair stylists, fashion stylists and filmmakers based in Rome, Italy. Vetted creatives for international editorial and fashion shoots.',
+  alternates: { canonical: 'https://italycreatives.com/crew' },
 }
 
 const serif: React.CSSProperties = {
@@ -119,14 +120,14 @@ export default function CrewPage() {
               >
                 {cat.title}
               </h2>
-              <Link
-                href={`/crew/${cat.slug}`}
+              <a
+                href={`#${cat.slug}`}
                 style={{ ...sans, color: 'var(--accent-red)', letterSpacing: '0.12em', fontSize: '0.7rem', textTransform: 'uppercase' }}
                 className="flex items-center gap-2 hover:opacity-70 transition-opacity"
               >
                 View Roster
                 <ArrowRight size={11} strokeWidth={1.5} color="var(--accent-red)" />
-              </Link>
+              </a>
             </div>
 
             {/* Right */}

@@ -17,16 +17,22 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const post = getPostBySlug(slug)
   if (!post) return {}
 
+  const url = `https://italycreatives.com/blog/${post.slug}`
+
   return {
-    title: `${post.title} — ItalyCreatives`,
+    title: post.title,
     description: post.metaDescription,
+    alternates: { canonical: url },
     openGraph: {
       title: post.title,
       description: post.metaDescription,
       type: 'article',
       publishedTime: post.date,
-      url: `https://italycreatives.com/blog/${post.slug}`,
+      url,
       siteName: 'ItalyCreatives',
+      images: [
+        'https://pub-b328f685b3be4afb9a684f09c2306442.r2.dev/og-image1.png',
+      ],
     },
   }
 }
@@ -129,22 +135,36 @@ export default async function BlogPostPage({ params }: Props) {
 
   const related = getRelatedPosts(post.slug, post.tags)
 
+  const url = `https://italycreatives.com/blog/${post.slug}`
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: post.title,
-    description: post.metaDescription,
-    datePublished: post.date,
-    url: `https://italycreatives.com/blog/${post.slug}`,
-    author: {
-      '@type': 'Organization',
-      name: 'ItalyCreatives',
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'ItalyCreatives',
-      url: 'https://italycreatives.com',
-    },
+    '@graph': [
+      {
+        '@type': 'Article',
+        headline: post.title,
+        description: post.metaDescription,
+        datePublished: post.date,
+        url,
+        image: 'https://pub-b328f685b3be4afb9a684f09c2306442.r2.dev/og-image1.png',
+        author: {
+          '@type': 'Organization',
+          name: 'ItalyCreatives',
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: 'ItalyCreatives',
+          url: 'https://italycreatives.com',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://italycreatives.com' },
+          { '@type': 'ListItem', position: 2, name: 'Blog', item: 'https://italycreatives.com/blog' },
+          { '@type': 'ListItem', position: 3, name: post.title, item: url },
+        ],
+      },
+    ],
   }
 
   return (
