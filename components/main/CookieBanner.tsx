@@ -21,6 +21,7 @@ export default function CookieBanner() {
   function respond(accepted: boolean) {
     try {
       localStorage.setItem(STORAGE_KEY, accepted ? 'accepted' : 'declined')
+      window.dispatchEvent(new Event('cookie-consent-changed'))
     } catch {
       // ignore
     }

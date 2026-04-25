@@ -3,6 +3,7 @@ import { Cormorant_Garamond, DM_Sans } from 'next/font/google'
 import Navbar from '@/components/main/Navbar'
 import Footer from '@/components/main/Footer'
 import CookieBanner from '@/components/main/CookieBanner'
+import GoogleAnalytics from '@/components/main/GoogleAnalytics'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -66,6 +67,7 @@ export default function MainLayout({
       {children}
       <Footer />
       <CookieBanner />
+      <GoogleAnalytics />
     </div>
   )
 }
