@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { Scissors, Sparkles, Shirt, Film } from 'lucide-react'
+import { Scissors, Sparkles, Shirt, Film, Camera, Aperture, WandSparkles, Clapperboard } from 'lucide-react'
 import { getAllPosts, formatDate } from '@/lib/blog'
 
 export const metadata: Metadata = {
@@ -262,6 +262,34 @@ export default function HomePage() {
                 slug: 'filmmakers',
                 description:
                   'DOPs and directors of photography available for fashion film, advertising and branded content productions in Italy.',
+              },
+              {
+                icon: <Camera size={20} strokeWidth={1.5} color="var(--accent-red)" />,
+                category: 'Photographers',
+                slug: 'photographers',
+                description:
+                  'Event, editorial, BTS, EPK and film set photographers with experience on international productions, congresses and luxury events.',
+              },
+              {
+                icon: <Aperture size={20} strokeWidth={1.5} color="var(--accent-red)" />,
+                category: 'Drone Operators',
+                slug: 'drone-operators',
+                description:
+                  'Licensed and insured drone operators with flight permits. Aerial cinematography for advertising, fashion film and location coverage across Italy.',
+              },
+              {
+                icon: <WandSparkles size={20} strokeWidth={1.5} color="var(--accent-red)" />,
+                category: 'AI Artists',
+                slug: 'ai-artists',
+                description:
+                  'Specialists in AI-generated photography and video for campaigns, editorials and branded content. Cutting-edge visual output with full creative control.',
+              },
+              {
+                icon: <Clapperboard size={20} strokeWidth={1.5} color="var(--accent-red)" />,
+                category: 'Cinematographers / DOP',
+                slug: 'cinematographers',
+                description:
+                  'Directors of photography specialising in cinematic lighting for high-end commercials and advertising. Full control over light, framing and visual language for productions where every frame counts.',
               },
             ].map((item) => (
               <div
@@ -533,7 +561,7 @@ export default function HomePage() {
             production network.
           </h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-px"
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px"
             style={{ border: '1px solid var(--card-border)' }}
           >
             {[
@@ -557,6 +585,13 @@ export default function HomePage() {
                 role: 'Creative Crew Agency',
                 description:
                   'Representation of makeup artists, hair stylists, fashion stylists and filmmakers for international productions based in Rome.',
+              },
+              {
+                name: 'ItalyAerials',
+                url: 'https://www.italyaerials.com/',
+                role: 'Aerial & Drone',
+                description:
+                  'Professional drone operators and aerial cinematography for commercial, editorial and advertising productions across Italy.',
               },
             ].map((node) => (
               <div
