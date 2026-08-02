@@ -72,7 +72,7 @@ const initialData: FormData = {
   honeypot: '',
 }
 
-const crewOptions = ['Makeup', 'Hair', 'Styling', 'Film']
+const crewOptions = ['Makeup', 'Hair', 'Styling', 'Photo', 'Film', 'Drone']
 const projectTypes = ['Editorial', 'Advertising', 'Fashion Film', 'Commercial', 'Other']
 const budgetRanges = ['<€500/day', '€500–1500/day', '€1500+/day', 'Prefer not to say']
 
