@@ -430,6 +430,36 @@ export default function HomePage() {
                 label: 'Ballandi Music',
                 caption: 'Roma, 2019',
               },
+              {
+                embedUrl: 'https://player.vimeo.com/video/1106559756',
+                label: 'Garage Nove',
+                caption: 'Roma, May 2025',
+              },
+              {
+                embedUrl: 'https://player.vimeo.com/video/1180314494',
+                label: 'Fattoria Le Pupille',
+                caption: 'Tuscany, October 2025',
+              },
+              {
+                embedUrl: 'https://player.vimeo.com/video/1087641470',
+                label: 'Doppelganger',
+                caption: 'Rome, January 2025',
+              },
+              {
+                embedUrl: 'https://player.vimeo.com/video/1087641518?h=3a007dfea1',
+                label: 'Doppelganger',
+                caption: 'Rome, January 2025',
+              },
+              {
+                embedUrl: 'https://player.vimeo.com/video/975134674',
+                label: 'Man in Town Editorial',
+                caption: 'Rome, 2024',
+              },
+              {
+                embedUrl: 'https://player.vimeo.com/video/720667516',
+                label: 'Andrea Casta Live',
+                caption: 'Rome, 2022',
+              },
             ].map((video) => (
               <div key={video.embedUrl}>
                 {/* Embed container */}

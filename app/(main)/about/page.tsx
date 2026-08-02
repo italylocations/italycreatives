@@ -60,7 +60,8 @@ export default function AboutPage() {
               We are that contact.
             </p>
             <p style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '0.95rem' }}>
-              We represent makeup artists, hair stylists, fashion stylists and filmmakers who
+              We represent makeup artists, hair stylists, fashion stylists, photographers,
+              videographers, drone operators and filmmakers who
               meet a defined professional standard — published editorial credits, fluent English,
               direct experience on international productions, and the professionalism that high-end
               clients expect. Not everyone who applies is represented. That is the point.
@@ -119,6 +120,13 @@ export default function AboutPage() {
           </div>
           <div className="md:col-span-8 space-y-5">
             <p style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '0.95rem' }}>
+              We built ItalyCreatives because we work in this industry ourselves. We understand
+              what a production needs on set — the pace, the pressure, the visual standards.
+              We know the difference between a professional who delivers and one who does not.
+              That direct experience is why our vetting process is rigorous and why our
+              represented roster is small by design.
+            </p>
+            <p style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '0.95rem' }}>
               Representation at ItalyCreatives is earned, not given. Every application is
               reviewed personally. We verify editorial credits against the publications listed.
               We assess English level directly. We interview every candidate before making a
@@ -156,7 +164,7 @@ export default function AboutPage() {
           <div className="md:col-span-8 space-y-5">
             <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
               ItalyCreatives operates within a wider production ecosystem built for
-              international work in Italy. Two sister companies complete the offering:
+              international work in Italy. Three sister companies complete the offering:
             </p>
             <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
               <a
@@ -187,18 +195,33 @@ export default function AboutPage() {
               Dolomites. Every location is researched, permitted, and production-ready.
             </p>
             <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
-              Together, the three companies offer a production arriving in Italy a single
-              point of contact for locations, crew, and full production coordination.
-              One network. One standard.
+              <a
+                href="https://www.italyaerials.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: 'var(--accent-gold)', textDecoration: 'none', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}
+                className="hover:opacity-80 transition-opacity"
+              >
+                ItalyAerials <ExternalLink size={11} strokeWidth={1.5} />
+              </a>{' '}
+              provides professional drone operators and aerial cinematography services
+              across Italy. Licensed, insured and experienced on commercial, editorial
+              and advertising productions.
+            </p>
+            <p style={{ ...sans, color: 'rgba(248,245,240,0.65)', lineHeight: 1.85, fontSize: '0.95rem' }}>
+              Together, the four companies offer a production arriving in Italy a single
+              point of contact for locations, crew, aerial cinematography and full
+              production coordination. One network. One standard.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px mt-8"
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px mt-8"
               style={{ border: '1px solid rgba(255,255,255,0.08)' }}
             >
               {[
-                { name: 'NREAL', url: 'https://nreal.it', desc: 'Production · Direction' },
-                { name: 'ItalyLocations', url: 'https://italylocations.com', desc: 'Location Scouting' },
-                { name: 'ItalyCreatives', url: 'https://italycreatives.com', desc: 'Creative Crew' },
+                { name: 'NREAL', url: 'https://nreal.it/', desc: 'Production · Direction' },
+                { name: 'ItalyLocations', url: 'https://italylocations.com/', desc: 'Location Scouting' },
+                { name: 'ItalyAerials', url: 'https://www.italyaerials.com/', desc: 'Aerial & Drone' },
+                { name: 'ItalyCreatives', url: 'https://italycreatives.com/', desc: 'Creative Crew' },
               ].map((node) => (
                 <a
                   key={node.name}

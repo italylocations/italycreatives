@@ -1,11 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { CheckCircle } from 'lucide-react'
+import React from 'react'
 
 export const metadata: Metadata = {
   title: 'Creative Crew Services',
   description:
-    'Rome-based creative crew agency Italy productions rely on for makeup artists, hair stylists, fashion stylists and filmmakers. Vetted, English-speaking.',
+    'Rome-based creative crew agency Italy productions rely on for makeup artists, hair stylists, fashion stylists, photographers, videographers, drone operators and filmmakers. Vetted, English-speaking.',
   alternates: { canonical: 'https://italycreatives.com/services' },
 }
 
@@ -29,15 +30,15 @@ const services = [
     title: 'Full Crew Management',
     keywords: 'creative crew agency Italy · HMU agency Italy international production',
     body: [
-      'For productions that need a complete creative team assembled and managed, ItalyCreatives handles everything from artist selection to contracts, scheduling, logistics and payments.',
-      'You brief us once. We deliver a fully coordinated crew — makeup artists, hair stylists, fashion stylists and filmmakers — ready on set, on time, within budget.',
-      'This service is designed for international advertising campaigns, fashion productions and editorial projects where the creative team is large and coordination complexity is high.',
+      'When your international production lands in Italy, the last thing you want is to negotiate separately with a makeup artist, hair stylist, fashion stylist, photographer, videographer, drone operator and filmmaker. You brief us once, and we assemble and manage the entire creative team — artist selection, contracts, scheduling, insurance documentation, on-set coordination and payments handled from one place.',
+      'That is what a real creative crew agency Italy production teams can rely on looks like: one contact, one invoice, one accountable point of ownership from pre-production through wrap.',
+      'This is the right service when your shoot is complex — an international advertising campaign across multiple locations, a fashion production with a large HMU team, or an editorial project requiring both stills and motion.',
     ],
     highlights: [
-      'Single point of contact for the entire creative team',
-      'Contracts and invoicing handled centrally',
-      'Italian and international insurance documentation provided',
-      'On-set coordination included',
+      'One contact from brief through wrap — you never chase individual freelancers',
+      'Contracts, invoicing and Partita IVA handled for you',
+      'Italian and international insurance documentation ready before day one',
+      'On-set coordination included, so you focus on the creative',
     ],
   },
   {
@@ -45,74 +46,76 @@ const services = [
     title: 'Individual Artist Booking',
     keywords: 'makeup artist agency Italy · hair stylist agency Italy editorial',
     body: [
-      'Book a single artist from our represented roster for your production. Every professional we represent has been personally vetted — minimum published editorial credits verified, English level assessed, on-set professionalism confirmed.',
-      'Whether you need a key makeup artist for a luxury campaign, a hair stylist for a fashion editorial or a DOP for a branded content production, we match your brief to the right artist.',
+      'Sometimes you need one exceptional artist — a key makeup for a luxury beauty campaign, a hair stylist for an editorial cover, a photographer for a lookbook, a drone operator for an aerial fashion sequence, or a filmmaker for a branded story. Tell us who you need, and we match you to the right person from our represented roster.',
+      'Every artist we send has been personally vetted — editorial credits verified against the publications, English level assessed, on-set professionalism confirmed. You receive a curated shortlist that actually fits the brief, not a directory dump.',
     ],
     highlights: [
-      'Access to our full represented roster',
-      'Rate negotiation and booking confirmation handled by us',
-      'Portfolio and verified credits provided on request',
+      'Curated shortlist matched to your brief',
+      'Rate negotiation and booking confirmation handled for you',
+      'Verified portfolios and credits shared on request',
       'Same-day availability checks',
     ],
   },
   {
     number: '03',
-    title: 'Extended Network',
-    keywords: 'fashion stylist agency Rome · creative talent agency Rome',
+    title: 'Bilingual Communication',
+    keywords: 'English speaking makeup artist Italy · bilingual creative crew Italy',
     body: [
-      'When production scale or specific requirements exceed our core represented roster, we draw from our extended vetted network — professionals we know personally and have either worked with or thoroughly assessed.',
-      'This overflow capacity means ItalyCreatives can staff large-scale productions requiring six or more creative professionals simultaneously without compromising on standards.',
+      'Every artist we represent speaks fluent English. Not conversational — fluent. It is a baseline for representation, not a bonus feature. Because when your international team lands in Rome or Milan, you cannot afford to lose a shot day to on-set miscommunication.',
+      'Beyond language, you get people who understand how international productions actually work: the pace, the standards, the visual references from Vogue to luxury beauty to editorial storytelling. Your director says "more Peter Lindbergh," and the team knows exactly what that means.',
     ],
     highlights: [
-      'Overflow crew for large-scale productions',
-      'Same vetting standards as represented roster',
-      '20–25% coordination fee on extended network bookings',
-      'Available across major Italian cities',
+      'Fluent English required for every represented artist',
+      'On-set direction bridged seamlessly between English and Italian',
+      'Cultural fluency with international editorial and advertising standards',
+      'No production days lost to translation friction',
     ],
   },
   {
     number: '04',
-    title: 'Bilingual Communication',
-    keywords: 'English speaking makeup artist Italy · bilingual creative crew Italy',
+    title: 'Vetted Professionals Only',
+    keywords: 'makeup artist agency Rome editorial · key hair stylist Italy',
     body: [
-      'Every artist in our represented roster communicates fluently in English. This is a baseline requirement, not a bonus feature. International productions cannot afford on-set miscommunication.',
-      'We also bridge the cultural gap: our artists understand the pace, standards and visual language of international editorial and advertising productions — from Condé Nast to luxury brand campaigns.',
+      'We represent people who live and breathe fashion and editorial — not generalists who occasionally take a beauty job between weddings and corporate shoots. The makeup artists, hair stylists, fashion stylists, photographers, videographers, drone operators and filmmakers on our roster have chosen this world as their craft, and it shows in every frame they touch.',
+      'Every representation begins with a minimum of five verified published editorial credits, a portfolio review and a direct interview with our director. We check the credits against the publications themselves. We do not count followers. We count the work.',
+      'The result: when you book through us, you are working with someone whose passion for fashion and editorial matches yours.',
     ],
     highlights: [
-      'English fluency required for all represented artists',
-      'Conversational minimum for extended network',
-      'On-set direction in both English and Italian',
-      'Familiar with international production standards',
+      'People who live and breathe fashion and editorial — not generalists',
+      'Minimum 5 published editorials, verified against the publications',
+      'Direct interview with our director before representation',
+      'Annual re-evaluation to keep the roster current',
     ],
   },
   {
     number: '05',
-    title: 'Vetted Professionals Only',
-    keywords: 'makeup artist agency Rome editorial · key hair stylist Italy',
+    title: 'Insurance-Ready',
+    keywords: 'professional crew insurance Italy · production crew beauty Italy',
     body: [
-      'Representation at ItalyCreatives requires a minimum of five published editorial credits in verifiable international publications, a direct interview with our director, and a portfolio review.',
-      'We do not represent artists based on follower counts or self-reported experience. Every credit on every portfolio we represent has been verified against the publication. Every rate reflects genuine market experience.',
+      'International productions have compliance requirements — professional liability insurance, Partita IVA (VAT registration), certificates of coverage — and gathering them at the last minute is where shoots stall. Every artist we represent can produce this documentation on request, or arrange coverage quickly for specific production requirements.',
+      'You get the paperwork out of the way before day one so your production team can focus on the shoot, not chasing PDFs from freelancers.',
     ],
     highlights: [
-      'Minimum 5 published editorials, all verified',
-      'Direct interview with production director',
-      'Portfolio review before representation',
-      'Annual re-evaluation for active roster status',
+      'Professional liability insurance available for every artist',
+      'Documentation delivered at booking, not in the eleventh hour',
+      'Compliance with international production requirements',
+      'Partita IVA (VAT registration) confirmed for the entire represented roster',
     ],
   },
   {
     number: '06',
-    title: 'Insurance-Ready',
-    keywords: 'professional crew insurance Italy · production crew beauty Italy',
+    title: 'Extended Network',
+    keywords: 'fashion stylist agency Rome · creative talent agency Rome',
     body: [
-      'All represented professionals can provide documentation of professional liability insurance or can arrange it quickly for production requirements. For international productions with strict compliance requirements, this removes a common friction point.',
-      'We maintain records of insurance status for every represented artist and flag documentation requirements at the time of booking.',
+      'When your production scales beyond our core represented roster — a large campaign requiring six or more creative professionals simultaneously, or a specific niche skill our represented artists do not cover — we draw from our extended vetted network.',
+      'These are photographers, videographers, drone operators, filmmakers, makeup artists, hair stylists and fashion stylists we know personally and have either worked with directly or thoroughly assessed. Same standards, wider reach.',
+      'You still get one contact and one accountable point of coordination — regardless of whether your crew comes from our represented roster or the extended network.',
     ],
     highlights: [
-      'Professional liability insurance available',
-      'Documentation provided on request at booking',
-      'Compliance with international production requirements',
-      'Partita IVA (VAT registration) confirmed for all represented artists',
+      'Overflow crew for large-scale productions',
+      'Same vetting standards as our represented roster',
+      'Available across major Italian cities — Rome, Milan, Florence',
+      'One contact and one point of coordination, regardless of source',
     ],
   },
 ]
@@ -159,70 +162,116 @@ export default function ServicesPage() {
           style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.85, maxWidth: '42rem' }}
           className="text-base"
         >
-          ItalyCreatives is the creative crew agency Italy&rsquo;s international productions
-          turn to for makeup artists, hair stylists, fashion stylists and filmmakers.
-          Rome-based. English-speaking. Fully vetted. We handle the creative team so you
-          focus on the production.
+          We are filmmakers and editorial enthusiasts who built the agency we always
+          wished existed in Italy. ItalyCreatives represents the creative professionals
+          international productions need most: makeup artists, hair stylists, fashion
+          stylists, photographers, videographers, drone operators and filmmakers — all
+          based in Italy, English-speaking, seriously vetted. One brief. One contact.
+          The right crew on set.
         </p>
       </section>
 
       {/* Services */}
       {services.map((s, i) => (
-        <section
-          key={s.number}
-          style={{
-            borderBottom: '1px solid var(--card-border)',
-            background: i % 2 === 1 ? 'var(--bg-secondary)' : 'var(--bg-primary)',
-          }}
-          className="px-6 py-20"
-        >
-          <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
-            {/* Left col */}
-            <div className="md:col-span-4">
-              <p style={{ ...sans, color: 'var(--text-muted)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase' }} className="mb-3">
-                {s.number}
-              </p>
-              <h2
-                style={{ ...serif, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 400, color: 'var(--text-primary)' }}
-                className="italic leading-tight mb-4"
-              >
-                {s.title}
-              </h2>
-              <p style={{ ...sans, color: 'var(--text-muted)', fontSize: '0.7rem', lineHeight: 1.6 }}>
-                {s.keywords}
-              </p>
-            </div>
-
-            {/* Right col */}
-            <div className="md:col-span-8">
-              {s.body.map((para, j) => (
-                <p
-                  key={j}
-                  style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '0.95rem' }}
-                  className="mb-4 last:mb-0"
-                >
-                  {para}
+        <React.Fragment key={s.number}>
+          <section
+            style={{
+              borderBottom: '1px solid var(--card-border)',
+              background: i % 2 === 1 ? 'var(--bg-secondary)' : 'var(--bg-primary)',
+            }}
+            className="px-6 py-20"
+          >
+            <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12">
+              {/* Left col */}
+              <div className="md:col-span-4">
+                <p style={{ ...sans, color: 'var(--text-muted)', fontSize: '0.7rem', letterSpacing: '0.2em', textTransform: 'uppercase' }} className="mb-3">
+                  {s.number}
                 </p>
-              ))}
+                <h2
+                  style={{ ...serif, fontSize: 'clamp(1.6rem, 3vw, 2.2rem)', fontWeight: 400, color: 'var(--text-primary)' }}
+                  className="italic leading-tight mb-4"
+                >
+                  {s.title}
+                </h2>
+                <p style={{ ...sans, color: 'var(--text-muted)', fontSize: '0.7rem', lineHeight: 1.6 }}>
+                  {s.keywords}
+                </p>
+              </div>
 
-              <ul className="mt-8 space-y-3">
-                {s.highlights.map((item) => (
-                  <li key={item} className="flex items-start gap-3">
-                    <CheckCircle
-                      size={16}
-                      strokeWidth={1.5}
-                      color="var(--accent-red)"
-                      style={{ flexShrink: 0, marginTop: '0.2rem' }}
-                    />
-                    <span style={{ ...sans, color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7 }}>
-                      {item}
-                    </span>
-                  </li>
+              {/* Right col */}
+              <div className="md:col-span-8">
+                {s.body.map((para, j) => (
+                  <p
+                    key={j}
+                    style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.85, fontSize: '0.95rem' }}
+                    className="mb-4 last:mb-0"
+                  >
+                    {para}
+                  </p>
                 ))}
-              </ul>
+
+                <ul className="mt-8 space-y-3">
+                  {s.highlights.map((item) => (
+                    <li key={item} className="flex items-start gap-3">
+                      <CheckCircle
+                        size={16}
+                        strokeWidth={1.5}
+                        color="var(--accent-red)"
+                        style={{ flexShrink: 0, marginTop: '0.2rem' }}
+                      />
+                      <span style={{ ...sans, color: 'var(--text-secondary)', fontSize: '0.875rem', lineHeight: 1.7 }}>
+                        {item}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
-          </div>
-        </section>
+          </section>
+
+          {/* Mid-page CTA — after service 03 */}
+          {s.number === '03' && (
+            <section
+              style={{
+                borderBottom: '1px solid var(--card-border)',
+                background: 'var(--bg-primary)',
+              }}
+              className="px-6 py-20 text-center"
+            >
+              <div className="max-w-2xl mx-auto">
+                <p style={lbl} className="mb-5">Ready when you are</p>
+                <h2
+                  style={{ ...serif, fontSize: 'clamp(1.6rem, 3.2vw, 2.2rem)', fontWeight: 300, color: 'var(--text-primary)' }}
+                  className="italic leading-tight mb-6"
+                >
+                  Have a production coming to Italy?
+                </h2>
+                <p
+                  style={{ ...sans, color: 'var(--text-secondary)', lineHeight: 1.8, fontSize: '0.95rem' }}
+                  className="mb-8"
+                >
+                  Tell us the brief. We come back within 24 hours with the right
+                  makeup artists, hair stylists, fashion stylists, photographers,
+                  videographers, drone operators or filmmakers for your shoot.
+                </p>
+                <Link
+                  href="/contact"
+                  style={{
+                    ...sans,
+                    background: 'var(--accent-red)',
+                    color: '#fff',
+                    letterSpacing: '0.12em',
+                    fontSize: '0.75rem',
+                    textTransform: 'uppercase',
+                  }}
+                  className="inline-block px-12 py-4 transition-opacity hover:opacity-80"
+                >
+                  Get in Touch
+                </Link>
+              </div>
+            </section>
+          )}
+        </React.Fragment>
       ))}
 
       {/* CTA */}

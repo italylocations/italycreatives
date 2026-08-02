@@ -117,6 +117,7 @@ export default function Footer() {
             {[
               { name: 'NREAL', url: 'https://nreal.it' },
               { name: 'ItalyLocations', url: 'https://italylocations.com' },
+              { name: 'ItalyAerials', url: 'https://www.italyaerials.com/' },
             ].map((node) => (
               <a
                 key={node.name}
